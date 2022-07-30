@@ -8,5 +8,15 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
+    summary: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    healthScore: {
+      type: DataTypes.INTEGER
+    },
+    nstructions: {
+      type: DataTypes.TEXT
+    }
   });
 };
