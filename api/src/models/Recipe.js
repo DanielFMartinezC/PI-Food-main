@@ -15,7 +15,7 @@ module.exports = (sequelize) => {
     healthScore: {
       type: DataTypes.INTEGER
     },
-    instructions: {
+    steps: {
       type: DataTypes.TEXT
     }
   });
