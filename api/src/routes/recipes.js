@@ -83,13 +83,16 @@ router.post('/', async (req, res)=>{
         const { recipe, diets } = req.body;
         await Diet.create({name: "gluten free"});
         await Diet.create({name: "dairy free"});
-        const newRecipe = await Recipe.create({...recipe});
-        const idDiets = diets.map(async x => await Diet.findOne({attributes: 'id'}, {
-            where: {
-                name: x
-            }
-        }));
+        const newRecipe = await Recipe.create(recipe);
+        const idDiets = await diets.map(async (x) => {
+            return await Diet.findOne({attribute: ['id']}, {
+                where: {
+                    name: x
+                }
+            })
+        });
         res.json(await newRecipe.addDiets(idDiets));
+        // res.json(idDiets)
 
     }catch(e){
         return e
