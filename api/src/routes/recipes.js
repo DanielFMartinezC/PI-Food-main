@@ -2,7 +2,12 @@ const { Router } = require('express');
 const router = Router();
 const {Recipe, Diet, Op } = require('../db');
 const axios = require('axios');
-const { complexSearch } = require('../Utils/Constants')
+const { complexSearch } = require('../Utils/Constants');
+const createDiet = require('../controller/DietsController');
+const {
+    apiKey,
+  } = process.env;
+
 module.exports = router;
 /* 
 estructura de post
@@ -48,19 +53,12 @@ router.get('/', async (req, res)=> {
             throw  new Error('no recipe found')
         }
     }catch(e){
-        return e
+        return new Error(e)
     }
 });
 
 router.get('/:id', async (req, res)=>{
-    /* 
-    Los campos mostrados en la ruta principal para cada receta (imagen, nombre, tipo de plato y tipo de dieta)
- Resumen del plato
- Nivel de "comida saludable" (health score)
- Paso a paso
-    */
     try{
-        const apiKey = 'e710e5d5e8194b53aad4516e0adfd3f1';
         const { id } = req.params;
         const { data } = await axios.get(`https://api.spoonacular.com/recipes/${id}/information?apiKey=${apiKey}`);
         const axiosResult = {
@@ -74,27 +72,29 @@ router.get('/:id', async (req, res)=>{
         };
         res.json(axiosResult)
     }catch(e){
-        return e
+        return new Error(e)
     }
 });
 
 router.post('/', async (req, res)=>{
     try{
-        const { recipe, diets } = req.body;
-        await Diet.create({name: "gluten free"});
-        await Diet.create({name: "dairy free"});
+        const { recipe, diet } = req.body;
         const newRecipe = await Recipe.create(recipe);
-        const idDiets = await diets.map(async (x) => {
-            return await Diet.findOne({attribute: ['id']}, {
+        let allDiets = await Diet.findAll();
+        if(!allDiets.length){
+            await createDiet()
+        };
+        const findDiets = [];
+        for(let i = 0; i < diet.length; i++){
+            findDiets.push(await Diet.findOne({
                 where: {
-                    name: x
+                    name: diet[i]
                 }
-            })
-        });
-        res.json(await newRecipe.addDiets(idDiets));
-        // res.json(idDiets)
-
+            }))
+        };    
+        const idDiets = findDiets.map(x=>x.id);
+        return res.json(await newRecipe.addDiets(idDiets))
     }catch(e){
-        return e
+        return new Error(e)
     }
-})
+});
