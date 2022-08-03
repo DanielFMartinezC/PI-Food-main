@@ -37,21 +37,28 @@ router.get('/', async (req, res)=> {
     try{
         const { name } = req.query;
         const { data } = await axios.get(complexSearch);
-        const recipes = await Recipe.findAll({
-            where: {
-                name: {
-                    [Op.substring]: `%${name}%`
+        if(name){
+            const recipes = await Recipe.findAll({
+                where: {
+                    name: {
+                        [Op.substring]: `%${name}%`
+                    }
                 }
+            });
+            const filter = data.results.filter(x=>x.title.includes(name));
+            const response = recipes.concat(filter)
+            if(response.length){
+                return res.json(response)
+            }else{
+                res.status(404);
+                throw  new Error('no recipe found')
             }
-        });
-        const filter = data.results.filter(x=>x.title.includes(name));
-        const response = recipes.concat(filter)
-        if(response){
-            return res.json(response)
         }else{
-            res.status(404);
-            throw  new Error('no recipe found')
+            const recipes = await Recipe.findAll();
+            const response = recipes.concat(data.results);
+            return res.json(response)
         }
+        
     }catch(e){
         return new Error(e)
     }
