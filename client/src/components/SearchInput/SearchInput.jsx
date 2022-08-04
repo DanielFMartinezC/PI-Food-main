@@ -2,7 +2,7 @@ import {useDispatch} from 'react-redux';
 import {getRecipesByName} from '../../Redux/actions';
 import React from 'react';
 
-export default function searchInput(){
+export default function SearchInput(){
     const [state, setState] = React.useState('') 
     const dispatch = useDispatch();
     function handleName (e) {

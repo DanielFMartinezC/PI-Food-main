@@ -29,4 +29,6 @@ const rootReducer = (state = initialState, action) => {
                 diets: action.payload
             }
     }
-}
+};
+
+export default rootReducer;

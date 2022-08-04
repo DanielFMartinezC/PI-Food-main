@@ -37,6 +37,16 @@ router.get('/', async (req, res)=> {
     try{
         const { name } = req.query;
         const { data } = await axios.get(complexSearch);
+        const axiosResult = [];
+        for(let i = 0; i < data.results.length; i++){
+            const a = {
+                id: data.results[i]['id'],
+                image: data.results[i]['image'],
+                title: data.results[i]['title'],
+                diets: data.results[i]['diets'],
+            };
+            axiosResult.push(a)
+        };
         if(name){
             const recipes = await Recipe.findAll({
                 where: {
@@ -45,7 +55,7 @@ router.get('/', async (req, res)=> {
                     }
                 }
             });
-            const filter = data.results.filter(x=>x.title.includes(name));
+            const filter = axiosResult.filter(x=>x.title.includes(name));
             const response = recipes.concat(filter)
             if(response.length){
                 return res.json(response)
@@ -55,7 +65,7 @@ router.get('/', async (req, res)=> {
             }
         }else{
             const recipes = await Recipe.findAll();
-            const response = recipes.concat(data.results);
+            const response = recipes.concat(axiosResult);
             return res.json(response)
         }
         
@@ -69,7 +79,7 @@ router.get('/:id', async (req, res)=>{
         const { id } = req.params;
         const { data } = await axios.get(`https://api.spoonacular.com/recipes/${id}/information?apiKey=${apiKey}`);
         const axiosResult = {
-            imagen: data.imagen,
+            image: data.image,
             title: data.title,
             dishTypes: data.dishTypes,
             diets: data.diets,
