@@ -1,11 +1,12 @@
 import axios from 'axios';
-import { RECIPES, GET_RECIPES_BY_NAME, RECIPE_DETAIL, ALL_DIETS } from '../../constants';
+import { RECIPES, RECIPES_BY_NAME, RECIPE_DETAIL, ALL_DIETS } from '../../constants';
 
 export const GET_RECIPES = 'GET_RECIPES';
 export const GET_RECIPES_BY_NAME = 'GET_RECIPES_BY_NAME';
 export const GET_RECIPE_DETAIL = 'GET_RECIPE_DETAIL';
 export const CREATE_RECIPE = 'CREATE_RECIPE';
 export const GET_DIETS = 'GET_DIETS';
+export const CHANGE_ORDER = 'CHANGE_ORDER'
 
 export const getAllRecipes = ()=>{
     return async (dispatch) => {
@@ -41,3 +42,9 @@ export const getDiets = ()=>{
        return dispatch({type: GET_DIETS, payload: data})
     }
 };
+
+export const changeOrder = (order)=>{
+    return {
+        type: CHANGE_ORDER, payload: order
+    }
+}
