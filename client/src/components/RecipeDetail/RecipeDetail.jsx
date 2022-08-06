@@ -7,8 +7,8 @@ import Steps from './Steps';
 export default function RecipeDetail (){
     const dispatch = useDispatch();
     const recipeDetail = useSelector((state)=> state.recipeDetail);
-    React.useEffect(()=>{
-        const { id } = useParams();
+    const { id } = useParams();
+    React.useEffect(()=>{  
         if(id){
             dispatch(getRecipesDetail(id))
         }

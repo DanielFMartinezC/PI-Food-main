@@ -44,6 +44,7 @@ router.get('/', async (req, res)=> {
                 image: data.results[i]['image'],
                 title: data.results[i]['title'],
                 diets: data.results[i]['diets'],
+                healthScore: data.results[i]['healthScore']
             };
             axiosResult.push(a)
         };

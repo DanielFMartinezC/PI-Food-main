@@ -1,29 +1,38 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import React from 'react';
+import { changeOrder } from '../../Redux/actions';
 
 export default function Filters (){
-    const recipes = useSelector((state)=> state.recipes);
-    function compareFunction(x, y){
-        if(x.title < y.title){
-            return -1
-        } else if(x.title > y.title){
-            return 1
-        };
-        return 0
-    };
-    function stateSort(array, order){
-        const ascen = array.sort(compareFunction)
-        if(order === 'ascendant'){
-            return ascen
-        } else {
-            return ascen.reverse()
-        }
-    } 
+    const dispatch = useDispatch();
+
     return (
         <div>
-            <form>
-                <input type="checkbox" />
+            <p>Sort by:</p>
+            <div>
+            <form> 
+                <p>Alphabet order:</p>
+                <select onChange={(e)=>{
+                    e.preventDefault();
+                    dispatch(changeOrder(e.target.value, 'Alphabetical'))
+                }}>
+                    <option>-</option>
+                    <option value="Ascending">Ascending</option>
+                    <option value="Descending">Descending</option>
+                </select>
             </form>
+            </div>
+            <div>
+                <form>
+                    <p>Health score:</p>
+                    <select onChange={(e)=>{
+                        e.preventDefault();
+                        dispatch(changeOrder(e.target.value, 'Numerical'))
+                    }}>
+                        <option value="Ascending">Ascending</option>
+                        <option value="Descending">Descending</option>
+                    </select>
+                </form>
+            </div>
         </div>
     )
 }

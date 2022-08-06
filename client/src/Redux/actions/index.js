@@ -6,7 +6,10 @@ export const GET_RECIPES_BY_NAME = 'GET_RECIPES_BY_NAME';
 export const GET_RECIPE_DETAIL = 'GET_RECIPE_DETAIL';
 export const CREATE_RECIPE = 'CREATE_RECIPE';
 export const GET_DIETS = 'GET_DIETS';
-export const CHANGE_ORDER = 'CHANGE_ORDER'
+export const ORDER_ASCE = 'ORDER_ASCE';
+export const ORDER_DESCE = 'ORDER_DESC';
+export const HEALTH_ASCE = 'HEALTH_ASCE';
+export const HEALTH_DESCE = 'HEALTH_DESCE';
 
 export const getAllRecipes = ()=>{
     return async (dispatch) => {
@@ -43,8 +46,30 @@ export const getDiets = ()=>{
     }
 };
 
-export const changeOrder = (order)=>{
-    return {
-        type: CHANGE_ORDER, payload: order
+export const changeOrder = (order, type)=>{
+    if(type === 'Alphabetical'){
+        if(order === 'Ascending') {
+            return {
+                type: ORDER_ASCE
+            }
+        };
+        if (order = "Descending"){
+            return {
+                type: ORDER_DESCE
+            }
+        };
+    };
+    if(type === 'Numerical'){
+        if(order === 'Ascending') {
+            return {
+                type: HEALTH_ASCE
+            }
+        };
+        if (order = "Descending"){
+            return {
+                type: HEALTH_DESCE
+            }
+        };
     }
-}
+};
+

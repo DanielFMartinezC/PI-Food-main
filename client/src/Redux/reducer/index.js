@@ -1,12 +1,11 @@
-import { GET_RECIPES, GET_RECIPES_BY_NAME, GET_RECIPE_DETAIL, CREATE_RECIPE, GET_DIETS, CHANGE_ORDER } from '../actions/index';
+import { GET_RECIPES, GET_RECIPES_BY_NAME, GET_RECIPE_DETAIL, CREATE_RECIPE, GET_DIETS, ORDER_ASCE, ORDER_DESCE, HEALTH_ASCE, HEALTH_DESCE } from '../actions/index';
 
 const initialState = {
     recipes: [],
     diets: [],
     recipeDetail: {}
 };
-
-function compareFunction(x, y){
+function compareFunctionByTitle(x, y){
     if(x.title < y.title){
         return -1
     } else if(x.title > y.title){
@@ -14,14 +13,15 @@ function compareFunction(x, y){
     };
     return 0
 };
-function stateSort(array, order){
-    const ascen = array.sort(compareFunction)
-    if(order === 'ascendant'){
-        return ascen
-    } else {
-        return ascen.reverse()
-    }
-} 
+
+function compareFunctionByHealthScore(x, y){
+    if(x.healthScore < y.healthScore){
+        return -1
+    } else if(x.healthScore > y.healthScore){
+        return 1
+    };
+    return compareFunctionByTitle(x, y)
+};
 
 const rootReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -45,7 +45,26 @@ const rootReducer = (state = initialState, action) => {
                 ...state,
                 diets: action.payload
             };
-        case CHANGE_ORDER:
+        case ORDER_ASCE:
+            return {
+                ...state,
+                recipes: state.recipes.sort(compareFunctionByTitle)
+            };
+        case ORDER_DESCE:
+            return{
+                ...state,
+                recipes: state.recipes.sort(compareFunctionByTitle).reverse()
+            };
+        case HEALTH_ASCE:
+            return {
+                ...state,
+                recipes: state.recipes.sort(compareFunctionByHealthScore)
+            };
+        case HEALTH_DESCE:
+            return{
+                ...state,
+                recipes: state.recipes.sort(compareFunctionByHealthScore).reverse()
+            }
             
     }
 };

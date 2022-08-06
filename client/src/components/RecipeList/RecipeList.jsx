@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getAllRecipes } from '../../Redux/actions/index';
 import RecipeCard from "./RecipeCard";
 import SearchInput from "../SearchInput/SearchInput";
+import Filters from "../Filters/Filters";
 
 export default function RecipeList () {
     const dispatch = useDispatch();
@@ -13,6 +14,7 @@ export default function RecipeList () {
         return(
             <div>
                 <SearchInput/>
+                <Filters/>                
                 <p>hola</p>
                 {
                     state.recipes.map((x)=>{
