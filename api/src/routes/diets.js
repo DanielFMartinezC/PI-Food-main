@@ -7,11 +7,15 @@ module.exports = router;
 
 router.get('/', async(req, res)=>{
     try{
-        let allDiets = await Diet.findAll();
+        let allDiets = await Diet.findAll({
+            attributes: ['id', 'name']
+        });
         if(!allDiets.length){
            await createDiet();
         };
-        allDiets = await Diet.findAll();
+        allDiets = await Diet.findAll({
+            attributes: ['id', 'name']
+        });
         return res.json(allDiets)
     }catch(e){
         return new Error(e)

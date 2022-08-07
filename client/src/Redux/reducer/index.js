@@ -20,7 +20,7 @@ function compareFunctionByHealthScore(x, y){
     } else if(x.healthScore > y.healthScore){
         return 1
     };
-    return compareFunctionByTitle(x, y)
+    return compareFunctionByTitle(y, x)
 };
 
 const rootReducer = (state = initialState, action) => {

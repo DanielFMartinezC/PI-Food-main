@@ -13,11 +13,7 @@ export default function RecipeDetail (){
             dispatch(getRecipesDetail(id))
         }
     },[]);
-    // console.log(state.recipeDetail);
-    console.log(recipeDetail, 1)
     if(recipeDetail){
-        console.log(recipeDetail, 2);
-        console.log(recipeDetail.steps, 3)
         const { title, image, diets, dishTypes, healthScore, summary, steps } = recipeDetail;
         return (
             <div>
