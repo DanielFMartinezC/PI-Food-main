@@ -17,7 +17,7 @@ export default function RecipeList () {
             <div>
                 <SearchInput/>
                 <Filters diets={state.diets}/>                
-                <p>hola</p>
+                <p>Let's see recipes</p>
                 {
                     state.recipes.map((x)=>{
                     return <RecipeCard key={x.id} id={x.id} image={x.image} title={x.title} diets={x.diets} />

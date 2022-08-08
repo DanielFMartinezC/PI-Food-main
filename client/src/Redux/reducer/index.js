@@ -1,10 +1,5 @@
-import { GET_RECIPES, GET_RECIPES_BY_NAME, GET_RECIPE_DETAIL, CREATE_RECIPE, GET_DIETS, ORDER_ASCE, ORDER_DESCE, HEALTH_ASCE, HEALTH_DESCE } from '../actions/index';
+import { GET_RECIPES, FILTER_BY_DIETS, GET_RECIPES_BY_NAME, GET_RECIPE_DETAIL, CREATE_RECIPE, GET_DIETS, ORDER_ASCE, ORDER_DESCE, HEALTH_ASCE, HEALTH_DESCE } from '../actions/index';
 
-const initialState = {
-    recipes: [],
-    diets: [],
-    recipeDetail: {}
-};
 function compareFunctionByTitle(x, y){
     if(x.title < y.title){
         return -1
@@ -23,12 +18,20 @@ function compareFunctionByHealthScore(x, y){
     return compareFunctionByTitle(y, x)
 };
 
+const initialState = {
+    recipes: [],
+    orderRecipes: [],
+    diets: [],
+    recipeDetail: {}
+};
+
 const rootReducer = (state = initialState, action) => {
     switch (action.type) {
         case GET_RECIPES: 
             return {
                 ...state,
-                recipes: action.payload
+                recipes: action.payload,
+                orderRecipes: action.payload
             };
         case GET_RECIPES_BY_NAME: 
             return {
@@ -64,6 +67,13 @@ const rootReducer = (state = initialState, action) => {
             return{
                 ...state,
                 recipes: state.recipes.sort(compareFunctionByHealthScore).reverse()
+            };
+        case FILTER_BY_DIETS:
+            const {payload} = action;
+            console.log(payload)
+            return{
+                ...state,
+                // recipes: filterdRecipes
             }
             
     }

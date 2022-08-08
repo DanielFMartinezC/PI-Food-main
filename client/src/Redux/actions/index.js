@@ -10,6 +10,7 @@ export const ORDER_ASCE = 'ORDER_ASCE';
 export const ORDER_DESCE = 'ORDER_DESC';
 export const HEALTH_ASCE = 'HEALTH_ASCE';
 export const HEALTH_DESCE = 'HEALTH_DESCE';
+export const FILTER_BY_DIETS = 'FILTER_BY_DIETS';
 
 export const getAllRecipes = ()=>{
     return async (dispatch) => {
@@ -73,3 +74,8 @@ export const changeOrder = (order, type)=>{
     }
 };
 
+export const filterByDiets = (diets) =>{
+    return {
+        type: FILTER_BY_DIETS, payload: diets
+    }
+}

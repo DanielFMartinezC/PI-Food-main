@@ -1,7 +1,8 @@
-export default function InputDiets ({diet}){
+
+export default function InputDiets ({value}){
     return (
         <div> 
-            <input type="checkbox" name="diets" />{diet}<br/>
+            <input class="diet-input" type="checkbox" name="diets" value={value} />{value}<br/>
         </div>
     )
 }
