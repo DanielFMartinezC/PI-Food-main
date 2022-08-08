@@ -70,10 +70,22 @@ const rootReducer = (state = initialState, action) => {
             };
         case FILTER_BY_DIETS:
             const {payload} = action;
-            console.log(payload)
+            if(!payload.length){
+                return{
+                    ...state,
+                    recipes: state.orderRecipes
+                }
+            }
+            console.log(payload, 'redux');
+            let filteredRecipes = [];
+            for(let i = 0; i < payload.length; i++){
+                filteredRecipes = filteredRecipes.concat(state.orderRecipes.filter(x => x.diets.includes(payload[i])))
+            };
+            const set = new Set(filteredRecipes)
+            const response = [...set];
             return{
                 ...state,
-                // recipes: filterdRecipes
+                recipes: response
             }
             
     }

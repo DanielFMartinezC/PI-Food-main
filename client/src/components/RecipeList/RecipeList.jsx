@@ -7,12 +7,14 @@ import Filters from "../Filters/Filters";
 
 export default function RecipeList () {
     const dispatch = useDispatch();
-    React.useEffect(async ()=> {
-        await dispatch(getAllRecipes());
-        await dispatch(getDiets())
+    React.useEffect(()=> {
+        dispatch(getAllRecipes());
+        dispatch(getDiets())
     },[]);
     const state = useSelector((state)=> state);
+    
     if(state){
+        console.log(state.recipes.diets)
         return(
             <div>
                 <SearchInput/>

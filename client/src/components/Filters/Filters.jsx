@@ -4,11 +4,10 @@ import { changeOrder, filterByDiets } from '../../Redux/actions';
 import InputDiets from './InputDiets';
 
 export default function Filters({ diets }) {
-    let filterRecipes = [];
-    // React.useEffect()
     const [dietFilter, setDietFilter] = React.useState([])
     const dispatch = useDispatch();
-    console.log(dietFilter);
+    // console.log(dietFilter, 'react');
+    React.useEffect(()=>{console.log(dietFilter, 'react'); dispatch(filterByDiets(dietFilter))}, [dietFilter])
     function handleCheckBox(e) {
         if (e.target.checked) {
             setDietFilter(dietFilter => [...dietFilter, e.target.value]);
@@ -16,7 +15,8 @@ export default function Filters({ diets }) {
         if (!e.target.checked) {
             setDietFilter(dietFilter => [...dietFilter].filter(x => x !== e.target.value));
         };
-
+        
+        // dispatch(filterByDiets(dietFilter))
     }
     return (
         <div>
@@ -48,7 +48,7 @@ export default function Filters({ diets }) {
                 </form>
             </div>
             <div>
-                <form onClick={(e) => { handleCheckBox(e) }}>
+                <form onChange={(e) => { handleCheckBox(e) }}>
                     <p>Diet types:</p>
                     {
                         diets.map(x => {
