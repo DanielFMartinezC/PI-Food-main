@@ -4,6 +4,7 @@ const {Recipe, Diet, Op } = require('../db');
 const axios = require('axios');
 const { complexSearch } = require('../Utils/Constants');
 const createDiet = require('../controller/DietsController');
+const { v4: uuidv4 } = require('uuid');
 const {
     apiKey,
   } = process.env;
@@ -97,7 +98,10 @@ router.get('/:id', async (req, res)=>{
 router.post('/', async (req, res)=>{
     try{
         const { recipe, diet } = req.body;
-        const newRecipe = await Recipe.create(recipe);
+        const newRecipe = await Recipe.create({
+            ...recipe,
+            id: uuidv4()
+        });
         let allDiets = await Diet.findAll();
         if(!allDiets.length){
             await createDiet()
