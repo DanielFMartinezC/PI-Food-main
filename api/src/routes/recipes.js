@@ -86,7 +86,7 @@ router.get('/:id', async (req, res)=>{
             diets: data.diets,
             summary: data.summary,
             healthScore: data.healthScore,
-            steps: data.analyzedInstructions[0]['steps']
+            steps: data.analyzedInstructions.length ? data.analyzedInstructions[0]['steps'] : null
         };
         res.json(axiosResult)
     }catch(e){

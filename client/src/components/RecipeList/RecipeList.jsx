@@ -5,29 +5,52 @@ import RecipeCard from "./RecipeCard";
 import SearchInput from "../SearchInput/SearchInput";
 import Filters from "../Filters/Filters";
 
-export default function RecipeList () {
+export default function RecipeList() {
+    const [page, setPage] = React.useState(0);
     const dispatch = useDispatch();
-    React.useEffect(()=> {
-        dispatch(getAllRecipes());
-        dispatch(getDiets())
-    },[]);
-    const state = useSelector((state)=> state);
-    
-    if(state){
-        console.log(state.recipes.diets)
-        return(
+    React.useEffect(() => {
+        const fn = async () => {
+            try{
+                await dispatch( getAllRecipes());
+                await dispatch(getDiets())
+            }catch(e){
+                return new Error(e)
+            }
+        };
+        fn();
+    }, [])
+    const { recipes, diets } = useSelector((state) => state) || false;
+    function handlerPage() {
+        const repicePage = recipes.slice(page, page + 9);
+        return repicePage;
+    };
+    function nextPage() {
+        if (recipes[page + 9])
+            setPage(page + 9)
+    };
+    function prevPage() {
+        if (page > 0) {
+            setPage(page - 9)
+        }
+    };
+    if (recipes) {
+        console.log(recipes)
+        return (
             <div>
-                <SearchInput/>
-                <Filters diets={state.diets}/>                
+                <SearchInput />
+                <Filters diets={diets} />
                 <p>Let's see recipes</p>
+                <button onClick={prevPage}>Back</button>
+                <button onClick={nextPage}>Next</button>
+
                 {
-                    state.recipes.map((x)=>{
-                    return <RecipeCard key={x.id} id={x.id} image={x.image} title={x.title} diets={x.diets} />
+                    handlerPage().map((x) => {
+                        return <RecipeCard key={x.id} id={x.id} image={x.image} title={x.title} diets={x.diets} />
                     })
                 }
             </div>
         )
-    }else{
+    } else {
         return (
             <p>cargando</p>
         )

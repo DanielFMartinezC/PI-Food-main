@@ -3,18 +3,23 @@ import {getRecipesDetail} from '../../Redux/actions/index';
 import { useDispatch, useSelector } from 'react-redux'; 
 import React from 'react';
 import Steps from './Steps';
+import ReactHtmlParser from 'react-html-parser'
 
-export default function RecipeDetail (){
+const RecipeDetail = ()=>{
     const dispatch = useDispatch();
-    const recipeDetail = useSelector((state)=> state.recipeDetail);
     const { id } = useParams();
-    React.useEffect(()=>{  
-        if(id){
-            dispatch(getRecipesDetail(id))
+    React.useEffect(()=>{
+        const fn = async()=>{
+            await dispatch(getRecipesDetail(id)) 
         }
-    },[]);
+        fn();
+    },[])
+    const {recipeDetail} = useSelector((state)=>state) || false;
+    console.log(recipeDetail)
     if(recipeDetail){
+        console.log(recipeDetail)
         const { title, image, diets, dishTypes, healthScore, summary, steps } = recipeDetail;
+        console.log(steps, 'steps')
         return (
             <div>
                 <h3>{title}</h3>
@@ -22,16 +27,17 @@ export default function RecipeDetail (){
                 <p>{diets}</p>
                 <p>{dishTypes}</p>
                 <p>{healthScore}</p>
-                {summary}
+                <div>{ ReactHtmlParser(summary)}</div>
                 {
-                    steps ? steps.map(x=>{
-                        return <Steps key={x.number} number={x.number} step={x.step} />
-                    }) : <p>pere</p>
-                }
-                
+                    steps ? steps.map(x => <Steps key={x.number} number={x.number} step={x.step}/>) : <p>There is no instrucctions</p>
+                } 
             </div>
         )
     }else{
-        <p>cargando</p>
+        return (
+            <p>chao pa</p>
+        )
     }
-}
+    
+};
+export default RecipeDetail

@@ -6,8 +6,7 @@ import InputDiets from './InputDiets';
 export default function Filters({ diets }) {
     const [dietFilter, setDietFilter] = React.useState([])
     const dispatch = useDispatch();
-    // console.log(dietFilter, 'react');
-    React.useEffect(()=>{console.log(dietFilter, 'react'); dispatch(filterByDiets(dietFilter))}, [dietFilter])
+    React.useEffect(()=>{ dispatch(filterByDiets(dietFilter))}, [dietFilter])
     function handleCheckBox(e) {
         if (e.target.checked) {
             setDietFilter(dietFilter => [...dietFilter, e.target.value]);
@@ -15,8 +14,6 @@ export default function Filters({ diets }) {
         if (!e.target.checked) {
             setDietFilter(dietFilter => [...dietFilter].filter(x => x !== e.target.value));
         };
-        
-        // dispatch(filterByDiets(dietFilter))
     }
     return (
         <div>
