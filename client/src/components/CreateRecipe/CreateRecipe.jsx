@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import InputDiets from '../Filters/InputDiets';
-import { getDiets } from "../../Redux/actions";
+import { getDiets, createRecipe } from "../../Redux/actions";
 
 export default function CreateRecipe() {
     const dispatch = useDispatch();
@@ -68,10 +68,21 @@ export default function CreateRecipe() {
             setDiets(dietFilter => [...dietFilter].filter(x => x !== e.target.value));
         };
     };
-    console.log({ recipe: recipe, diets: dietsReact })
+
+    function handleSubmit(e) {
+        e.preventDefault();
+        const body = {
+            recipe: recipe,
+            diets: dietsReact
+        }
+        console.log(body)
+        dispatch(createRecipe(body))
+    }
+
+
     return (
         <div>
-            <form>
+            <form onChange={(e) => { handleDiets(e) }} onSubmit={(e) => { handleSubmit(e) }}>
                 <label>name: </label>
                 <input type='text' name="name" value={recipe.name} onChange={(e) => handleRecipe(e)} />
                 <label>Summary: </label>
@@ -94,13 +105,12 @@ export default function CreateRecipe() {
                     })
                 }
                 <button onClick={(e) => { addStep(e) }}>Add</button>
-                <form onChange={(e) => { handleDiets(e) }}>
-                    {   
-                        diets ? diets.map(x => {
-                            return <InputDiets key={x.id} value={x.name} />
-                        }) : <p>pere</p>
-                    }
-                </form>
+                {
+                    diets ? diets.map(x => {
+                        return <InputDiets key={x.id} value={x.name} />
+                    }) : <p>pere</p>
+                }
+                <input type="submit" />
             </form>
         </div>
     )

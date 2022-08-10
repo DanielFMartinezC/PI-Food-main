@@ -12,61 +12,61 @@ export const HEALTH_ASCE = 'HEALTH_ASCE';
 export const HEALTH_DESCE = 'HEALTH_DESCE';
 export const FILTER_BY_DIETS = 'FILTER_BY_DIETS';
 
-export const getAllRecipes = ()=>{
+export const getAllRecipes = () => {
     return async (dispatch) => {
         const { data } = await axios.get(RECIPES);
-        return dispatch({ type: GET_RECIPES, payload: data})
+        return dispatch({ type: GET_RECIPES, payload: data })
 
     }
 };
 
-export const getRecipesByName = (name)=>{
+export const getRecipesByName = (name) => {
     return async (dispatch) => {
         const { data } = await axios.get(RECIPES_BY_NAME + name);
-        return dispatch({ type: GET_RECIPES_BY_NAME, payload: data})
+        return dispatch({ type: GET_RECIPES_BY_NAME, payload: data })
     }
 };
 
-export const getRecipesDetail = (id)=>{
-    return async (dispatch) =>{
+export const getRecipesDetail = (id) => {
+    return async (dispatch) => {
         const { data } = await axios.get(RECIPE_DETAIL + id);
         return dispatch({ type: GET_RECIPE_DETAIL, payload: data })
     }
 }
 
-// export const createRecipe = ()=>{
-//     return async(dispatch) =>{
-//         const { data } = await axios.post()
-//     }
-// };
-
-export const getDiets = ()=>{
-    return async(dispatch)=>{
-       const {data} = await axios.get(ALL_DIETS);
-       return dispatch({type: GET_DIETS, payload: data})
+export const createRecipe = (body) => {
+    return async (dispatch) => {
+        const response = await axios.post(RECIPES, body)
     }
 };
 
-export const changeOrder = (order, type)=>{
-    if(type === 'Alphabetical'){
-        if(order === 'Ascending') {
+export const getDiets = () => {
+    return async (dispatch) => {
+        const { data } = await axios.get(ALL_DIETS);
+        return dispatch({ type: GET_DIETS, payload: data })
+    }
+};
+
+export const changeOrder = (order, type) => {
+    if (type === 'Alphabetical') {
+        if (order === 'Ascending') {
             return {
                 type: ORDER_ASCE
             }
         };
-        if (order = "Descending"){
+        if (order = "Descending") {
             return {
                 type: ORDER_DESCE
             }
         };
     };
-    if(type === 'Numerical'){
-        if(order === 'Ascending') {
+    if (type === 'Numerical') {
+        if (order === 'Ascending') {
             return {
                 type: HEALTH_ASCE
             }
         };
-        if (order = "Descending"){
+        if (order = "Descending") {
             return {
                 type: HEALTH_DESCE
             }
@@ -74,7 +74,7 @@ export const changeOrder = (order, type)=>{
     }
 };
 
-export const filterByDiets = (diets) =>{
+export const filterByDiets = (diets) => {
     return {
         type: FILTER_BY_DIETS, payload: diets
     }
