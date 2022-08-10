@@ -24,17 +24,72 @@ export default function CreateRecipe() {
     });
 
     const [dietsReact, setDiets] = React.useState([]);
-    const [errors, setErrors] = React.useState({});
+    const [errors, setErrors] = React.useState({
+        name: "",
+        summary: '',
+        healthScore: '',
+        steps: '',
+        image: ''
+    });
+
+    function validateRecipe(e) {
+        const { name, value } = e.target
+        console.log(name)
+        switch (name) {
+            case "healthScore":
+                if (value < 0) {
+                    return setErrors({
+                        ...errors,
+                        healthScore: 'Health score must be 0 or greater'
+                    })
+                }
+                if (value > 100) {
+                    return setErrors({
+                        ...errors,
+                        healthScore: 'Health score must be 100 or less'
+                    })
+                }else{
+                    return setErrors({
+                        ...errors,
+                        healthScore: ''
+                    })
+                }
+            case "image":
+                const validateImage = new RegExp(/.(gif|jpeg|jpg|png)$/i);
+                const validateRUL = new RegExp(/(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/);
+                if(!value){
+                    return null
+                }
+                if(!validateImage.test(value)){
+                    return setErrors({
+                        ...errors,
+                        image: 'URL must be from an image'
+                    })
+                }
+                if(!validateRUL.test(value)){
+                    return setErrors({
+                        ...errors,
+                        image: 'You must type a URL'
+                    })
+                } else{
+                    return setErrors({
+                        ...errors,
+                        image: ''
+                    })
+                }
+        }
+    }
+
     const handleRecipe = function (e) {
+        validateRecipe(e);
+        if(!errors[e.target.name]){
+        };
         setRecipe({
             ...recipe,
             [e.target.name]: e.target.value
         });
-        // setErrors(validate({
-        //   ...recipe,
-        //   [e.target.name]: e.target.value
-        // }))
     };
+    
     function addStep(e) {
         e.preventDefault();
         setRecipe({
@@ -78,8 +133,9 @@ export default function CreateRecipe() {
         console.log(body)
         dispatch(createRecipe(body))
     }
-
-
+    // console.log(!errors['name'])
+    console.log(errors, 'errores');
+    console.log(recipe, 'recipe')
     return (
         <div>
             <form onChange={(e) => { handleDiets(e) }} onSubmit={(e) => { handleSubmit(e) }}>
@@ -114,4 +170,5 @@ export default function CreateRecipe() {
             </form>
         </div>
     )
-}
+};
+
