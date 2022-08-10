@@ -1,13 +1,13 @@
 const { Router } = require('express');
 const router = Router();
-const {Recipe, Diet, Op } = require('../db');
+const { Recipe, Diet, Op } = require('../db');
 const axios = require('axios');
 const { complexSearch } = require('../Utils/Constants');
 const createDiet = require('../controller/DietsController');
-const { v4: uuidv4 } = require('uuid');
+const { v4: uuidv4, validate } = require('uuid');
 const {
     apiKey,
-  } = process.env;
+} = process.env;
 
 module.exports = router;
 /* 
@@ -28,18 +28,18 @@ estructura de post
             }
         ]
     }, 
-    "diet": [
+    "diets": [
         "gluten free",
         "dairy free"
     ]
 } 
 */
-router.get('/', async (req, res)=> {
-    try{
+router.get('/', async (req, res) => {
+    try {
         const { name } = req.query;
         const { data } = await axios.get(complexSearch);
         const axiosResult = [];
-        for(let i = 0; i < data.results.length; i++){
+        for (let i = 0; i < data.results.length; i++) {
             const a = {
                 id: data.results[i]['id'],
                 image: data.results[i]['image'],
@@ -49,7 +49,7 @@ router.get('/', async (req, res)=> {
             };
             axiosResult.push(a)
         };
-        if(name){
+        if (name) {
             const recipes = await Recipe.findAll({
                 where: {
                     name: {
@@ -57,66 +57,83 @@ router.get('/', async (req, res)=> {
                     }
                 }
             });
-            const filter = axiosResult.filter(x=>x.title.includes(name));
+            const filter = axiosResult.filter(x => x.title.includes(name));
             const response = recipes.concat(filter)
-            if(response.length){
+            if (response.length) {
                 return res.json(response)
-            }else{
+            } else {
                 res.status(404);
-                throw  new Error('no recipe found')
+                throw new Error('no recipe found')
             }
-        }else{
+        } else {
             const recipes = await Recipe.findAll();
             const response = recipes.concat(axiosResult);
             return res.json(response)
         }
-        
-    }catch(e){
+
+    } catch (e) {
         return new Error(e)
     }
 });
 
-router.get('/:id', async (req, res)=>{
-    try{
+router.get('/:id', async (req, res) => {
+    try {
         const { id } = req.params;
-        const { data } = await axios.get(`https://api.spoonacular.com/recipes/${id}/information?apiKey=${apiKey}`);
-        const axiosResult = {
-            image: data.image,
-            title: data.title,
-            dishTypes: data.dishTypes,
-            diets: data.diets,
-            summary: data.summary,
-            healthScore: data.healthScore,
-            steps: data.analyzedInstructions.length ? data.analyzedInstructions[0]['steps'] : null
-        };
-        res.json(axiosResult)
-    }catch(e){
+        if (validate(id)) {
+            const recipe = await Recipe.findByPk(id);
+            if (!recipe) {
+                res.status(404);
+                throw res.send('Recipe not found')
+            } else {
+                return res.json(recipe)
+            }
+        } else {
+            const { data } = await axios.get(`https://api.spoonacular.com/recipes/${id}/information?apiKey=${apiKey}`);
+            if (!data) {
+                res.status(404);
+                throw res.send('Recipe not found')
+            } else {
+                const axiosResult = {
+                    image: data.image,
+                    title: data.title,
+                    dishTypes: data.dishTypes,
+                    diets: data.diets,
+                    summary: data.summary,
+                    healthScore: data.healthScore,
+                    steps: data.analyzedInstructions.length ? data.analyzedInstructions[0]['steps'] : null
+                };
+                return res.json(axiosResult)
+            }
+        }
+
+    } catch (e) {
         return new Error(e)
     }
 });
 
-router.post('/', async (req, res)=>{
-    try{
-        const { recipe, diet } = req.body;
+router.post('/', async (req, res) => {
+    try {
+        const { recipe, diets } = req.body;
         const newRecipe = await Recipe.create({
             ...recipe,
             id: uuidv4()
         });
         let allDiets = await Diet.findAll();
-        if(!allDiets.length){
+        if (!allDiets.length) {
             await createDiet()
         };
         const findDiets = [];
-        for(let i = 0; i < diet.length; i++){
+        for (let i = 0; i < diets.length; i++) {
             findDiets.push(await Diet.findOne({
                 where: {
-                    name: diet[i]
+                    name: diets[i]
                 }
             }))
-        };    
-        const idDiets = findDiets.map(x=>x.id);
-        return res.json(await newRecipe.addDiets(idDiets))
-    }catch(e){
+        };
+        const idDiets = findDiets.map(x => x.id);
+        await newRecipe.addDiets(idDiets)
+        return res.send('Your recipe was created successfully')
+    } catch (e) {
         return new Error(e)
     }
 });

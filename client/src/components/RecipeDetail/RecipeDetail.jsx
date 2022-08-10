@@ -23,7 +23,10 @@ const RecipeDetail = ()=>{
         return (
             <div>
                 <h3>{title}</h3>
-                <img src={image} alt={title}/>
+                {
+                    image ? <img src={image} alt={title}/> : <p>There is no picture</p>
+                }
+                
                 <p>{diets}</p>
                 <p>{dishTypes}</p>
                 <p>{healthScore}</p>

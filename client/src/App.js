@@ -4,7 +4,7 @@ import React from "react";
 import LandingPage from './components/LandingPage/LandingPage';
 import RecipeList from './components/RecipeList/RecipeList';
 import RecipeDetail from './components/RecipeDetail/RecipeDetail';
-
+import CreateRecipe from './components/CreateRecipe/CreateRecipe';
 
 function App() {
   return (
@@ -12,6 +12,7 @@ function App() {
       <Route exact path='/'component={LandingPage}/>
       <Route path='/home' component={RecipeList}/>
       <Route path='/recipe/:id' component={RecipeDetail}/>
+      <Route path='/createRecipe' component={CreateRecipe} />
     </React.Fragment>
   );
 }
