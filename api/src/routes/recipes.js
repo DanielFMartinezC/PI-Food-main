@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const router = Router();
-const { Recipe, Diet, Op } = require('../db');
+const { Recipe, Diet, RecipeDiet, Op } = require('../db');
 const axios = require('axios');
 const { complexSearch } = require('../Utils/Constants');
 const createDiet = require('../controller/DietsController');
@@ -34,7 +34,8 @@ estructura de post
     ]
 } 
 */
-router.get('/', async (req, res) => {
+
+router.get('/', async (req, res) => { 
     try {
         const { name } = req.query;
         const { data } = await axios.get(complexSearch);
@@ -50,23 +51,44 @@ router.get('/', async (req, res) => {
             axiosResult.push(a)
         };
         if (name) {
-            const recipes = await Recipe.findAll({
-                where: {
-                    name: {
-                        [Op.substring]: `%${name}%`
-                    }
+            try {
+                const recipes = await Recipe.findAll({
+                    where: {
+                        title: {
+                            [Op.like]: `%${name}%`
+                        }
+                    },
+                    include: [{
+                        model: Diet,
+                        through: {
+                            attributes: []
+                        },
+                        attributes: ['name']
+                    }],
+                });
+
+                const filter = axiosResult.filter(x => x.title.includes(name));
+                const response = recipes.concat(filter)
+                if (response.length) {
+                    return res.json(response)
+                } else {
+                    res.status(400);
+                    throw res.send('no recipe found')
                 }
-            });
-            const filter = axiosResult.filter(x => x.title.includes(name));
-            const response = recipes.concat(filter)
-            if (response.length) {
-                return res.json(response)
-            } else {
-                res.status(404);
-                throw new Error('no recipe found')
+            } catch (e) {
+                res.status(500);
+                return res.json(e)
             }
         } else {
-            const recipes = await Recipe.findAll();
+            const recipes = await Recipe.findAll({
+                include: [{
+                    model: Diet,
+                    through: {
+                        attributes: []
+                    },
+                    attributes: ['name']
+                }],
+            });
             const response = recipes.concat(axiosResult);
             return res.json(response)
         }
@@ -81,7 +103,15 @@ router.get('/:id', async (req, res) => {
     try {
         const { id } = req.params;
         if (validate(id)) {
-            const recipe = await Recipe.findByPk(id);
+            const recipe = await Recipe.findByPk(id,{
+                include: [{
+                    model: Diet,
+                    through: {
+                        attributes: []
+                    },
+                    attributes: ['name']
+                }],
+            });
             if (!recipe) {
                 res.status(404);
                 throw res.send('Recipe not found')
@@ -101,7 +131,7 @@ router.get('/:id', async (req, res) => {
                     diets: data.diets,
                     summary: data.summary,
                     healthScore: data.healthScore,
-                    steps: data.analyzedInstructions.length ? data.analyzedInstructions[0]['steps'] : null
+                    steps: data.analyzedInstructions.length ? data.analyzedInstructions[0]['steps'] : []
                 };
                 return res.json(axiosResult)
             }
@@ -120,7 +150,7 @@ router.post('/', async (req, res) => {
             ...recipe,
             id: uuidv4()
         });
-        
+
         let allDiets = await Diet.findAll();
         if (!allDiets.length) {
             await createDiet()

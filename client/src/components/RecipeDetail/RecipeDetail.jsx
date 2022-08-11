@@ -19,6 +19,13 @@ const RecipeDetail = ()=>{
     if(recipeDetail){
         console.log(recipeDetail)
         const { title, image, diets, dishTypes, healthScore, summary, steps } = recipeDetail;
+        function renderDiets(){
+            if(typeof(diets[0]) === 'object'){
+                return diets.map((x) => x.name)
+            }else{
+                return diets
+            }
+        }
         console.log(steps, 'steps')
         return (
             <div>
@@ -26,13 +33,14 @@ const RecipeDetail = ()=>{
                 {
                     image ? <img src={image} alt={title}/> : <p>There is no picture</p>
                 }
-                
-                <p>{diets}</p>
+                {
+                    diets ? <p>{renderDiets()}</p> : null
+                }
                 <p>{dishTypes}</p>
                 <p>{healthScore}</p>
                 <div>{ ReactHtmlParser(summary)}</div>
                 {
-                    steps ? steps.map(x => <Steps key={x.number} number={x.number} step={x.step}/>) : <p>There is no instrucctions</p>
+                    steps.length && steps[0]['step'] ? steps.map(x => <Steps key={x.number} number={x.number} step={x.step}/>) : <p>There is no instrucctions</p>
                 } 
             </div>
         )

@@ -9,6 +9,7 @@ export default function CreateRecipe() {
         dispatch(getDiets())
     }, []);
 
+
     const { diets } = useSelector((state) => state) || false;
 
     const stepsModel = {
@@ -23,98 +24,72 @@ export default function CreateRecipe() {
         image: ''
     });
 
+    const submit = React.useRef(null)
     const [dietsReact, setDiets] = React.useState([]);
-    const [errors, setErrors] = React.useState({
-        title: "",
-        summary: '',
-        healthScore: '',
-        steps: '',
-        image: '',
-        diets: ''
-    });
+    const [errors, setErrors] = React.useState({ initialState: 'mal' });
 
-    function validateRecipe(e) {
-        const { name, value } = e.target
-        // console.log(name)
+    function validate(e) {
+        const { name, value } = e.target;
+        console.log(name, typeof (value), Math.sign(value))
+        let error = {}
         switch (name) {
             case "healthScore":
-                if (value < 0) {
-                    return setErrors({
-                        ...errors,
-                        healthScore: 'Health score must be 0 or greater'
-                    })
-                }
+
                 if (value > 100) {
-                    return setErrors({
-                        ...errors,
-                        healthScore: 'Health score must be 100 or less'
-                    })
+                    error.healthScore = 'Health score must be 100 or less'
+                } else if (Math.sign(value) === -1) {
+                    error.healthScore = 'Health score must be 0 or greater'
                 } else {
-                    return setErrors({
-                        ...errors,
-                        healthScore: ''
-                    })
-                }
+                    error.healthScore = ''
+                };
+                break;
             case "image":
-                const validateImage = new RegExp(/.(gif|jpeg|jpg|png)$/i);
                 const validateRUL = new RegExp(/(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/);
-                if (!value) {
-                    return null
-                }
-                if (!validateRUL.test(value)) {
-                    return setErrors({
-                        ...errors,
-                        image: 'You must type a URL'
-                    })
-                }
-                if (!validateImage.test(value)) {
-                    return setErrors({
-                        ...errors,
-                        image: 'URL must be from an image'
-                    })
+                if (value !== '') {
+                    if (!validateRUL.test(value)) {
+                        error.image = 'You must type a URL'
+                    }
                 }
                 else {
-                    return setErrors({
-                        ...errors,
-                        image: ''
-                    })
-                }
-        }
-    }
-
-    function validateSubmit(){
-        if(!recipe.name){
-            setErrors({
-                ...errors,
-                name: 'Name is required'
-            })
-        }if(!recipe.summary){
-            setErrors({
-                ...errors,
-                summary: 'Summary is required'
-            })
-        } if(!dietsReact.length){
-            setErrors({
-                ...errors,
-                diets: 'You must select at least one diet'
-            })
-        }
-        for(const key in errors){
-            if(errors[key]){
-                return false
-            }
+                    error.image = ''
+                };
+                break;
+            case "name":
+                if (!recipe.name) {
+                    error.name = 'Name is required'
+                };
+                break;
+            case "summary":
+                if (!recipe.summary) {
+                    error.summary = 'Summar is required'
+                };
+                break;
         };
-        return true
+
+        if (!dietsReact.length) {
+            error.diets = 'You must select at least one diet'
+        };
+        if (recipe.steps.length > 1) {
+            for (let i = 0; i < recipe.steps.length; i++) {
+                if (!recipe.steps[i]["step"]) {
+                    error.steps = 'All steps fields must be filled'
+                }
+            }
+        }
+
+        return error
     }
 
     const handleRecipe = function (e) {
-        validateRecipe(e);
-        if (!errors[e.target.name]) {
-        };
+        setErrors({
+            ...errors,
+            initialState: ''
+        })
         setRecipe({
             ...recipe,
             [e.target.name]: e.target.value
         });
+        setErrors(validate(e));
     };
 
     function addStep(e) {
@@ -151,24 +126,40 @@ export default function CreateRecipe() {
         };
     };
 
+    React.useEffect(() => {
+        function errorToBoolean() {
+            for (const key in errors) {
+                if (errors[key]) {
+                    return 0
+                }
+            }
+            return 1
+        };
+        submit.current = errorToBoolean()
+        console.log(errors)
+        console.log(submit.current)
+    }, [errors, dietsReact, recipe])
+
     function handleSubmit(e) {
         e.preventDefault();
-        if(validateSubmit()){
+        // if(!recipe.title){
+        //     setErrors({name: 'Name is required'})
+        // };
+        handleRecipe(e)
+        console.log(submit.current)
+        if (submit.current) {
             const body = {
                 recipe: recipe,
                 diets: dietsReact
             }
             console.log(body)
             dispatch(createRecipe(body))
-        }else{
-
         }
     }
-    // console.log(!errors['name'])
-    // console.log(errors, 'errores');
-    // console.log(recipe, 'recipe')
+
     return (
         <div>
+            <h2>Here you can create your own recipe</h2>
             <form onChange={(e) => { handleDiets(e) }} onSubmit={(e) => { handleSubmit(e) }}>
                 <label>name: </label>
                 <input type='text' name="title" value={recipe.title} onChange={(e) => handleRecipe(e)} />
@@ -202,6 +193,9 @@ export default function CreateRecipe() {
                             </div>
                         )
                     })
+                }
+                {
+                    errors.steps ? <span>{errors.steps}</span> : null
                 }
                 <button onClick={(e) => { addStep(e) }}>Add</button>
                 {

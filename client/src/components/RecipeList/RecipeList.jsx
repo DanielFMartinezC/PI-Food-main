@@ -45,7 +45,8 @@ export default function RecipeList() {
 
                 {
                     handlerPage().map((x) => {
-                        return <RecipeCard key={x.id} id={x.id} image={x.image} title={x.title} diets={x.diets} />
+                        return <RecipeCard key={x.id} id={x.id} image={x.image} title={x.title} diets={typeof(x.diets[0]) === 'object' ? x.diets.map((x) => x.name) : x.diets}
+                         />
                     })
                 }
             </div>
