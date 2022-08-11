@@ -16,7 +16,7 @@ export default function CreateRecipe() {
         step: ''
     }
     const [recipe, setRecipe] = React.useState({
-        name: "",
+        title: "",
         summary: '',
         healthScore: 0,
         steps: [{ ...stepsModel }],
@@ -25,16 +25,17 @@ export default function CreateRecipe() {
 
     const [dietsReact, setDiets] = React.useState([]);
     const [errors, setErrors] = React.useState({
-        name: "",
+        title: "",
         summary: '',
         healthScore: '',
         steps: '',
-        image: ''
+        image: '',
+        diets: ''
     });
 
     function validateRecipe(e) {
         const { name, value } = e.target
-        console.log(name)
+        // console.log(name)
         switch (name) {
             case "healthScore":
                 if (value < 0) {
@@ -48,7 +49,7 @@ export default function CreateRecipe() {
                         ...errors,
                         healthScore: 'Health score must be 100 or less'
                     })
-                }else{
+                } else {
                     return setErrors({
                         ...errors,
                         healthScore: ''
@@ -57,21 +58,22 @@ export default function CreateRecipe() {
             case "image":
                 const validateImage = new RegExp(/.(gif|jpeg|jpg|png)$/i);
                 const validateRUL = new RegExp(/(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/);
-                if(!value){
+                if (!value) {
                     return null
                 }
-                if(!validateImage.test(value)){
+                if (!validateRUL.test(value)) {
+                    return setErrors({
+                        ...errors,
+                        image: 'You must type a URL'
+                    })
+                }
+                if (!validateImage.test(value)) {
                     return setErrors({
                         ...errors,
                         image: 'URL must be from an image'
                     })
                 }
-                if(!validateRUL.test(value)){
-                    return setErrors({
-                        ...errors,
-                        image: 'You must type a URL'
-                    })
-                } else{
+                else {
                     return setErrors({
                         ...errors,
                         image: ''
@@ -80,16 +82,41 @@ export default function CreateRecipe() {
         }
     }
 
+    function validateSubmit(){
+        if(!recipe.name){
+            setErrors({
+                ...errors,
+                name: 'Name is required'
+            })
+        }if(!recipe.summary){
+            setErrors({
+                ...errors,
+                summary: 'Summary is required'
+            })
+        } if(!dietsReact.length){
+            setErrors({
+                ...errors,
+                diets: 'You must select at least one diet'
+            })
+        }
+        for(const key in errors){
+            if(errors[key]){
+                return false
+            }
+        };
+        return true
+    }
+
     const handleRecipe = function (e) {
         validateRecipe(e);
-        if(!errors[e.target.name]){
+        if (!errors[e.target.name]) {
         };
         setRecipe({
             ...recipe,
             [e.target.name]: e.target.value
         });
     };
-    
+
     function addStep(e) {
         e.preventDefault();
         setRecipe({
@@ -126,27 +153,43 @@ export default function CreateRecipe() {
 
     function handleSubmit(e) {
         e.preventDefault();
-        const body = {
-            recipe: recipe,
-            diets: dietsReact
+        if(validateSubmit()){
+            const body = {
+                recipe: recipe,
+                diets: dietsReact
+            }
+            console.log(body)
+            dispatch(createRecipe(body))
+        }else{
+
         }
-        console.log(body)
-        dispatch(createRecipe(body))
     }
     // console.log(!errors['name'])
-    console.log(errors, 'errores');
-    console.log(recipe, 'recipe')
+    // console.log(errors, 'errores');
+    // console.log(recipe, 'recipe')
     return (
         <div>
             <form onChange={(e) => { handleDiets(e) }} onSubmit={(e) => { handleSubmit(e) }}>
                 <label>name: </label>
-                <input type='text' name="name" value={recipe.name} onChange={(e) => handleRecipe(e)} />
+                <input type='text' name="title" value={recipe.title} onChange={(e) => handleRecipe(e)} />
+                {
+                    errors.name ? <span>{errors.name}</span> : null
+                }
                 <label>Summary: </label>
                 <input type='text' name="summary" value={recipe.summary} onChange={(e) => handleRecipe(e)} />
+                {
+                    errors.summary ? <span>{errors.summary}</span> : null
+                }
                 <label>Health score: </label>
                 <input type="number" name="healthScore" value={recipe.healthScore} onChange={(e) => handleRecipe(e)} />
+                {
+                    errors.healthScore ? <span>{errors.healthScore}</span> : null
+                }
                 <label>Image URL: </label>
                 <input type='text' name='image' value={recipe.image} onChange={(e) => handleRecipe(e)} />
+                {
+                    errors.image ? <span>{errors.image}</span> : null
+                }
                 {
                     recipe.steps.map((x, i) => {
                         return (
@@ -165,6 +208,9 @@ export default function CreateRecipe() {
                     diets ? diets.map(x => {
                         return <InputDiets key={x.id} value={x.name} />
                     }) : <p>pere</p>
+                }
+                {
+                    errors.diets ? <span>{errors.diets}</span> : null
                 }
                 <input type="submit" />
             </form>

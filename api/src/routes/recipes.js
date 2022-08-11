@@ -14,7 +14,7 @@ module.exports = router;
 estructura de post
 {
     "recipe": {
-        "name": "affsfas",
+        "title": "affsfas",
         "summary": "jfafklf",
         "healthScore": 50,
         "steps": [
@@ -72,7 +72,8 @@ router.get('/', async (req, res) => {
         }
 
     } catch (e) {
-        return new Error(e)
+        res.status(500);
+        return res.json(e)
     }
 });
 
@@ -107,7 +108,8 @@ router.get('/:id', async (req, res) => {
         }
 
     } catch (e) {
-        return new Error(e)
+        res.status(500);
+        return res.json(e)
     }
 });
 
@@ -118,10 +120,12 @@ router.post('/', async (req, res) => {
             ...recipe,
             id: uuidv4()
         });
+        
         let allDiets = await Diet.findAll();
         if (!allDiets.length) {
             await createDiet()
         };
+
         const findDiets = [];
         for (let i = 0; i < diets.length; i++) {
             findDiets.push(await Diet.findOne({
@@ -130,10 +134,12 @@ router.post('/', async (req, res) => {
                 }
             }))
         };
+
         const idDiets = findDiets.map(x => x.id);
         await newRecipe.addDiets(idDiets)
-        return res.send('Your recipe was created successfully')
+        return res.send('Your recipe was created successfully');
     } catch (e) {
-        return new Error(e)
+        res.status(500);
+        return res.json(e)
     }
 });
