@@ -35,7 +35,7 @@ estructura de post
 } 
 */
 
-router.get('/', async (req, res) => { 
+router.get('/', async (req, res) => {
     try {
         const { name } = req.query;
         const { data } = await axios.get(complexSearch);
@@ -76,8 +76,8 @@ router.get('/', async (req, res) => {
                     throw res.send('no recipe found')
                 }
             } catch (e) {
-                res.status(500);
-                return res.json(e)
+                res.status(e.response.status)
+                return res.json(e.message)
             }
         } else {
             const recipes = await Recipe.findAll({
@@ -103,7 +103,7 @@ router.get('/:id', async (req, res) => {
     try {
         const { id } = req.params;
         if (validate(id)) {
-            const recipe = await Recipe.findByPk(id,{
+            const recipe = await Recipe.findByPk(id, {
                 include: [{
                     model: Diet,
                     through: {
@@ -138,7 +138,8 @@ router.get('/:id', async (req, res) => {
         }
 
     } catch (e) {
-        return res.json(e)
+        res.status(e.response.status)
+        return res.json(e.message)
     }
 });
 
@@ -168,7 +169,7 @@ router.post('/', async (req, res) => {
         await newRecipe.addDiets(idDiets)
         return res.send('Your recipe was created successfully');
     } catch (e) {
-        res.status(500);
-        return res.json(e)
+        res.status(e.response.status)
+        return res.json(e.message)
     }
 });
