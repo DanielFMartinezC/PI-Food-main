@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import InputDiets from '../Filters/InputDiets';
+import InputDiets from '../HomPage/Filters/InputDiets';
 import { getDiets, createRecipe } from "../../Redux/actions";
 
 export default function CreateRecipe() {
@@ -76,20 +76,17 @@ export default function CreateRecipe() {
 
     function validateSteps(input) {
         let error = ''
-        console.log(input.length);
+    
         if (input.length > 1) {
-            console.log('entré en el condicional')
+            
             for (let i = 0; i < input.length; i++) {
-                console.log('entré en el for')
-                // console.log(input[i]["step"])
+              
                 if (!input[i]["step"]) {
-                    console.log('entré en el step vacío')
                     error = 'All steps fields must be filled';
-                    console.log(error, 'error steps')
                     return error
                 }
             };
-            console.log(error, 'error steps')
+
             return error
         }
     }
@@ -171,13 +168,10 @@ export default function CreateRecipe() {
             return 1
         };
         submit.current = errorToBoolean()
-        console.log(errors)
-        console.log(submit.current)
     }, [errors, dietsReact, recipe])
 
     function handleSubmit(e) {
         e.preventDefault();
-        console.log('hice submit')
         if(errors.initialState){
             setErrors({
                 ...errors,
@@ -194,7 +188,6 @@ export default function CreateRecipe() {
                 recipe: recipe,
                 diets: dietsReact
             }
-            console.log(body)
             dispatch(createRecipe(body))
         }
     }

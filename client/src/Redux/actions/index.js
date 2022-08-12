@@ -11,6 +11,7 @@ export const ORDER_DESCE = 'ORDER_DESC';
 export const HEALTH_ASCE = 'HEALTH_ASCE';
 export const HEALTH_DESCE = 'HEALTH_DESCE';
 export const FILTER_BY_DIETS = 'FILTER_BY_DIETS';
+export const ORIGINAL_ORDER = 'ORIGINAL_ORDER'
 
 export const getAllRecipes = () => {
     return async (dispatch) => {
@@ -53,26 +54,36 @@ export const changeOrder = (order, type) => {
             return {
                 type: ORDER_ASCE
             }
-        };
-        if (order = "Descending") {
+        } else if (order === "Descending") {
             return {
                 type: ORDER_DESCE
             }
-        };
+        } else if (order === '-') {
+            return {
+                type: ORIGINAL_ORDER
+            }
+        }
     };
     if (type === 'Numerical') {
         if (order === 'Ascending') {
             return {
                 type: HEALTH_ASCE
             }
-        };
-        if (order = "Descending") {
+        } else if (order === "Descending") {
             return {
                 type: HEALTH_DESCE
             }
-        };
+        } else if (order === '-') {
+            return {
+                type: ORIGINAL_ORDER
+            }
+        }
     }
 };
+
+export const initialOrder = () => {
+
+}
 
 export const filterByDiets = (diets) => {
     return {

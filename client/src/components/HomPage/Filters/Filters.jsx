@@ -1,12 +1,12 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import React from 'react';
-import { changeOrder, filterByDiets } from '../../Redux/actions';
+import { changeOrder, filterByDiets } from '../../../Redux/actions';
 import InputDiets from './InputDiets';
 
 export default function Filters({ diets }) {
     const [dietFilter, setDietFilter] = React.useState([])
     const dispatch = useDispatch();
-    React.useEffect(()=>{ dispatch(filterByDiets(dietFilter))}, [dietFilter])
+    React.useEffect(() => { dispatch(filterByDiets(dietFilter)) }, [dietFilter])
     function handleCheckBox(e) {
         if (e.target.checked) {
             setDietFilter(dietFilter => [...dietFilter, e.target.value]);
@@ -19,26 +19,19 @@ export default function Filters({ diets }) {
         <div>
             <p>Sort by:</p>
             <div>
-                <form>
+                <form onChange={(e) => {
+                    e.preventDefault();
+                    dispatch(changeOrder(e.target.value, e.target.name))
+                }} >
                     <p>Alphabet order:</p>
-                    <select onChange={(e) => {
-                        e.preventDefault();
-                        dispatch(changeOrder(e.target.value, 'Alphabetical'))
-                    }}>
-                        <option>-</option>
+                    <select name='Alphabetical'>
+                        <option value="-">-</option>
                         <option value="Ascending">Ascending</option>
                         <option value="Descending">Descending</option>
                     </select>
-                </form>
-            </div>
-            <div>
-                <form>
                     <p>Health score:</p>
-                    <select onChange={(e) => {
-                        e.preventDefault();
-                        dispatch(changeOrder(e.target.value, 'Numerical'))
-                    }}>
-                        <option>-</option>
+                    <select name='Numerical' >
+                        <option value="-">-</option>
                         <option value="Ascending">Ascending</option>
                         <option value="Descending">Descending</option>
                     </select>

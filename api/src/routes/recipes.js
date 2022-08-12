@@ -94,8 +94,8 @@ router.get('/', async (req, res) => {
         }
 
     } catch (e) {
-        res.status(500);
-        return res.json(e)
+        res.status(e.response.status)
+        return res.json(e.message)
     }
 });
 
@@ -138,7 +138,6 @@ router.get('/:id', async (req, res) => {
         }
 
     } catch (e) {
-        res.status(500);
         return res.json(e)
     }
 });

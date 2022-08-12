@@ -16,7 +16,6 @@ const RecipeDetail = () => {
     }, [])
     const { recipeDetail } = useSelector((state) => state) || false;
     if (recipeDetail) {
-        console.log(recipeDetail)
         const { title, image, diets, dishTypes, healthScore, summary, steps } = recipeDetail;
         function renderDiets() {
             if (typeof (diets[0]) === 'object') {

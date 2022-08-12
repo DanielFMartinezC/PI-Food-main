@@ -1,25 +1,8 @@
 import React from "react";
-import { useDispatch, useSelector } from 'react-redux';
-import { getAllRecipes, getDiets } from '../../Redux/actions/index';
 import RecipeCard from "./RecipeCard";
-import SearchInput from "../SearchInput/SearchInput";
-import Filters from "../Filters/Filters";
 
-export default function RecipeList() {
+export default function RecipeList({ recipes }) {
     const [page, setPage] = React.useState(0);
-    const dispatch = useDispatch();
-    React.useEffect(() => {
-        const fn = async () => {
-            try {
-                await dispatch(getAllRecipes());
-                await dispatch(getDiets())
-            } catch (e) {
-                return new Error(e)
-            }
-        };
-        fn();
-    }, [])
-    const { recipes, diets } = useSelector((state) => state) || false;
     function handlerPage() {
         const repicePage = recipes.slice(page, page + 9);
         return repicePage;
@@ -33,7 +16,7 @@ export default function RecipeList() {
             setPage(page - 9)
         }
     };
-    function btnPage(e){
+    function btnPage(e) {
         console.log(e.target.value);
         setPage((9 * e.target.value) - 9)
     }
@@ -46,13 +29,11 @@ export default function RecipeList() {
 
         return (
             <div>
-                <SearchInput />
-                <Filters diets={diets} />
                 <p>Let's see recipes</p>
                 <button onClick={prevPage}>Back</button>
                 {
-                    arr.map(x=>{
-                        return <button key={x} value={x} onClick={(e)=>btnPage(e)}>{x}</button>
+                    arr.map(x => {
+                        return <button key={x} value={x} onClick={(e) => btnPage(e)}>{x}</button>
                     })
                 }
                 <button onClick={nextPage}>Next</button>
