@@ -34,7 +34,6 @@ export default function RecipeList() {
         }
     };
     if (recipes) {
-        console.log(recipes)
         return (
             <div>
                 <SearchInput />

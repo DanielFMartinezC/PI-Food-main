@@ -26,70 +26,87 @@ export default function CreateRecipe() {
 
     const submit = React.useRef(null)
     const [dietsReact, setDiets] = React.useState([]);
-    const [errors, setErrors] = React.useState({ initialState: 'mal' });
+    const [errors, setErrors] = React.useState({ initialState: true });
 
-    function validate(e) {
-        const { name, value } = e.target;
-        console.log(name, typeof (value), Math.sign(value))
-        let error = {}
-        switch (name) {
-            case "healthScore":
+    function validateRecipe(input) {
+        let error = {};
 
-                if (value > 100) {
-                    error.healthScore = 'Health score must be 100 or less'
-                } else if (Math.sign(value) === -1) {
-                    error.healthScore = 'Health score must be 0 or greater'
-                } else {
-                    error.healthScore = ''
-                };
-                break;
-            case "image":
-                const validateRUL = new RegExp(/(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/);
-                if (value !== '') {
-                    if (!validateRUL.test(value)) {
-                        error.image = 'You must type a URL'
-                    }
-                }
-                else {
-                    error.image = ''
-                };
-                break;
-            case "name":
-                if (!recipe.name) {
-                    error.name = 'Name is required'
-                };
-                break;
-            case "summary":
-                if (!recipe.summary) {
-                    error.summary = 'Summar is required'
-                };
-                break;
+        if (input.healthScore > 100) {
+            error.healthScore = 'Health score must be 100 or less'
+        } else if (input.healthScore < 0) {
+            error.healthScore = 'Health score must be 0 or greater'
+        } else {
+            error.healthScore = ''
         };
 
-        if (!dietsReact.length) {
-            error.diets = 'You must select at least one diet'
-        };
-        if (recipe.steps.length > 1) {
-            for (let i = 0; i < recipe.steps.length; i++) {
-                if (!recipe.steps[i]["step"]) {
-                    error.steps = 'All steps fields must be filled'
-                }
+        const validateRUL = new RegExp(/(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/);
+        if (input.image !== '') {
+            if (!validateRUL.test(input.image)) {
+                error.image = 'You must type a URL'
             }
+        } else {
+            error.image = ''
+        };
+
+
+        if (!input.name) {
+            error.name = 'Name is required'
+        } else {
+            error.name = ''
+        }
+
+        if (!input.summary) {
+            error.summary = 'Summar is required'
+        } else {
+            error.summary = ''
         }
 
         return error
+    };
+
+    function validateDiets(input) {
+        let error = {}
+        if (!input.length) {
+            error.diets = 'You must select at least one diet'
+        } else {
+            error.diets = ''
+        };
+        return error
+    };
+
+    function validateSteps(input) {
+        let error = ''
+        console.log(input.length);
+        if (input.length > 1) {
+            console.log('entré en el condicional')
+            for (let i = 0; i < input.length; i++) {
+                console.log('entré en el for')
+                // console.log(input[i]["step"])
+                if (!input[i]["step"]) {
+                    console.log('entré en el step vacío')
+                    error = 'All steps fields must be filled';
+                    console.log(error, 'error steps')
+                    return error
+                }
+            };
+            console.log(error, 'error steps')
+            return error
+        }
     }
 
     const handleRecipe = function (e) {
-        setErrors({
-            ...errors,
-            initialState: ''
-        })
         setRecipe({
             ...recipe,
             [e.target.name]: e.target.value
         });
-        setErrors(validate(e));
+        setErrors({
+            ...errors,
+            initialState: false,
+            ...validateRecipe({
+                ...recipe,
+                [e.target.name]: e.target.value,
+            })
+        });
     };
 
     function addStep(e) {
@@ -97,7 +114,11 @@ export default function CreateRecipe() {
         setRecipe({
             ...recipe,
             steps: [...recipe.steps, { ...stepsModel }]
-        })
+        });
+        setErrors({
+            ...errors,
+            steps: validateSteps([...recipe.steps, { ...stepsModel }])
+        });
     };
     function removeStep(e, index) {
         e.preventDefault();
@@ -106,24 +127,38 @@ export default function CreateRecipe() {
         setRecipe({
             ...recipe,
             steps: steps
-        })
+        });
+        setErrors({
+            ...errors,
+            steps: validateSteps([...steps])
+        });
     }
     function handleStepsChange(e) {
+
         const steps = [...recipe.steps];
         steps[e.target.id]["step"] = e.target.value;
         steps[e.target.id]["number"] = e.target.dataset.number;
+
         setRecipe({
             ...recipe,
             steps: steps
-        })
+        });
+
+        setErrors({
+            ...errors,
+            steps: validateSteps(steps)
+        });
     };
     function handleDiets(e) {
         if (e.target.checked) {
             setDiets(dietFilter => [...dietFilter, e.target.value]);
+            setErrors(validateDiets([...dietsReact, e.target.value]))
         }
         if (!e.target.checked) {
             setDiets(dietFilter => [...dietFilter].filter(x => x !== e.target.value));
+            setErrors(validateDiets([...dietsReact].filter(x => x !== e.target.value)))
         };
+
     };
 
     React.useEffect(() => {
@@ -142,11 +177,18 @@ export default function CreateRecipe() {
 
     function handleSubmit(e) {
         e.preventDefault();
-        // if(!recipe.title){
-        //     setErrors({name: 'Name is required'})
-        // };
-        handleRecipe(e)
-        console.log(submit.current)
+        console.log('hice submit')
+        if(errors.initialState){
+            setErrors({
+                ...errors,
+                beforeSubmit: 'You must complete the form before you submit'
+            })
+        }else{
+            setErrors({
+                ...errors,
+                beforeSubmit: ''
+            })
+        }
         if (submit.current) {
             const body = {
                 recipe: recipe,
@@ -160,7 +202,7 @@ export default function CreateRecipe() {
     return (
         <div>
             <h2>Here you can create your own recipe</h2>
-            <form onChange={(e) => { handleDiets(e) }} onSubmit={(e) => { handleSubmit(e) }}>
+            <form onSubmit={(e) => { handleSubmit(e) }}>
                 <label>name: </label>
                 <input type='text' name="title" value={recipe.title} onChange={(e) => handleRecipe(e)} />
                 {
@@ -198,16 +240,23 @@ export default function CreateRecipe() {
                     errors.steps ? <span>{errors.steps}</span> : null
                 }
                 <button onClick={(e) => { addStep(e) }}>Add</button>
-                {
-                    diets ? diets.map(x => {
-                        return <InputDiets key={x.id} value={x.name} />
-                    }) : <p>pere</p>
-                }
-                {
-                    errors.diets ? <span>{errors.diets}</span> : null
-                }
-                <input type="submit" />
+                <input type="submit" disabled={!submit} />
             </form>
+            <div>
+                <form onChange={(e) => { handleDiets(e) }}>
+                    {
+                        diets ? diets.map(x => {
+                            return <InputDiets key={x.id} value={x.name} />
+                        }) : <p>pere</p>
+                    }
+                    {
+                        errors.diets ? <span>{errors.diets}</span> : null
+                    }
+                </form>
+            </div>
+            {
+                errors.beforeSubmit ? <p>{errors.beforeSubmit}</p> : null
+            }
         </div>
     )
 };
