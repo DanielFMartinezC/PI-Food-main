@@ -1,0 +1,29 @@
+.root{
+    background-image: url(../../img/background\ landing-page.jpg);
+    background-size:cover;    
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}   
+
+.btn {
+    -webkit-transition:all .9s ease;
+    margin-left: 63%;
+    margin-top: 20%;
+    font-family: 'Times New Roman', Times, serif;
+    border-color: rgba(0, 0, 0, 0.4);
+    background: hsla(0,0%,100%,.4);
+    width: 350px;
+    height: 150px;
+    border-radius: 8px;
+    font-size: 60px;
+}
+
+.btn:hover {
+    -webkit-transform:scale(1.25);
+    /* width: 400px;
+    height: 180px; */
+    cursor: pointer;
+}

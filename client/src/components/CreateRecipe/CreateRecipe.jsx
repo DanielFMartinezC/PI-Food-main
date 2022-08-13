@@ -9,8 +9,7 @@ export default function CreateRecipe() {
     const dispatch = useDispatch();
     React.useEffect(() => {
         dispatch(getDiets())
-    }, []);
-
+    });
 
     const { diets } = useSelector((state) => state) || false;
 
@@ -41,7 +40,7 @@ export default function CreateRecipe() {
             error.healthScore = ''
         };
 
-        const validateRUL = new RegExp(/(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/);
+        const validateRUL = new RegExp(/(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!]))?/);
         if (input.image !== '') {
             if (!validateRUL.test(input.image)) {
                 error.image = 'You must type a URL'
@@ -49,8 +48,6 @@ export default function CreateRecipe() {
         } else {
             error.image = ''
         };
-
-
         if (!input.name) {
             error.name = 'Name is required'
         } else {
@@ -198,65 +195,65 @@ export default function CreateRecipe() {
         };
     }
 
-return (
-    <div>
-        <h2>Here you can create your own recipe</h2>
-        <form onSubmit={(e) => { handleSubmit(e) }}>
-            <label>name: </label>
-            <input type='text' name="title" value={recipe.title} onChange={(e) => handleRecipe(e)} />
-            {
-                errors.name ? <span>{errors.name}</span> : null
-            }
-            <label>Summary: </label>
-            <input type='text' name="summary" value={recipe.summary} onChange={(e) => handleRecipe(e)} />
-            {
-                errors.summary ? <span>{errors.summary}</span> : null
-            }
-            <label>Health score: </label>
-            <input type="number" name="healthScore" value={recipe.healthScore} onChange={(e) => handleRecipe(e)} />
-            {
-                errors.healthScore ? <span>{errors.healthScore}</span> : null
-            }
-            <label>Image URL: </label>
-            <input type='text' name='image' value={recipe.image} onChange={(e) => handleRecipe(e)} />
-            {
-                errors.image ? <span>{errors.image}</span> : null
-            }
-            {
-                recipe.steps.map((x, i) => {
-                    return (
-                        <div key={i}>
-                            <label>Step {i + 1}: </label>
-                            <input type="text" name={`step ${i + 1}`} id={i} data-number={i + 1} value={x.step} onChange={(e) => { handleStepsChange(e) }} />
-                            {
-                                recipe.steps.length > 1 ? <button onClick={(e) => { removeStep(e, i) }}>Remove</button> : null
-                            }
-                        </div>
-                    )
-                })
-            }
-            {
-                errors.steps ? <span>{errors.steps}</span> : null
-            }
-            <button onClick={(e) => { addStep(e) }}>Add</button>
-            <input type="submit" disabled={!submit} />
-        </form>
+    return (
         <div>
-            <form onChange={(e) => { handleDiets(e) }}>
+            <h2>Here you can create your own recipe</h2>
+            <form onSubmit={(e) => { handleSubmit(e) }}>
+                <label>name: </label>
+                <input type='text' name="title" value={recipe.title} onChange={(e) => handleRecipe(e)} />
                 {
-                    diets ? diets.map(x => {
-                        return <InputDiets key={x.id} value={x.name} />
-                    }) : <p>pere</p>
+                    errors.name ? <span>{errors.name}</span> : null
+                }
+                <label>Summary: </label>
+                <input type='text' name="summary" value={recipe.summary} onChange={(e) => handleRecipe(e)} />
+                {
+                    errors.summary ? <span>{errors.summary}</span> : null
+                }
+                <label>Health score: </label>
+                <input type="number" name="healthScore" value={recipe.healthScore} onChange={(e) => handleRecipe(e)} />
+                {
+                    errors.healthScore ? <span>{errors.healthScore}</span> : null
+                }
+                <label>Image URL: </label>
+                <input type='text' name='image' value={recipe.image} onChange={(e) => handleRecipe(e)} />
+                {
+                    errors.image ? <span>{errors.image}</span> : null
                 }
                 {
-                    errors.diets ? <span>{errors.diets}</span> : null
+                    recipe.steps.map((x, i) => {
+                        return (
+                            <div key={i}>
+                                <label>Step {i + 1}: </label>
+                                <input type="text" name={`step ${i + 1}`} id={i} data-number={i + 1} value={x.step} onChange={(e) => { handleStepsChange(e) }} />
+                                {
+                                    recipe.steps.length > 1 ? <button onClick={(e) => { removeStep(e, i) }}>Remove</button> : null
+                                }
+                            </div>
+                        )
+                    })
                 }
+                {
+                    errors.steps ? <span>{errors.steps}</span> : null
+                }
+                <button onClick={(e) => { addStep(e) }}>Add</button>
+                <input type="submit" disabled={!submit} />
             </form>
+            <div>
+                <form onChange={(e) => { handleDiets(e) }}>
+                    {
+                        diets ? diets.map(x => {
+                            return <InputDiets key={x.id} value={x.name} />
+                        }) : <p>pere</p>
+                    }
+                    {
+                        errors.diets ? <span>{errors.diets}</span> : null
+                    }
+                </form>
+            </div>
+            {
+                errors.beforeSubmit ? <p>{errors.beforeSubmit}</p> : null
+            }
         </div>
-        {
-            errors.beforeSubmit ? <p>{errors.beforeSubmit}</p> : null
-        }
-    </div>
-)
+    )
 };
 

@@ -13,7 +13,7 @@ const RecipeDetail = () => {
             await dispatch(getRecipesDetail(id))
         }
         fn();
-    }, [])
+    })
     const { recipeDetail } = useSelector((state) => state) || false;
     if (recipeDetail) {
         const { title, image, diets, dishTypes, healthScore, summary, steps } = recipeDetail;
