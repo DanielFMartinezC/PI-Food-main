@@ -35,12 +35,6 @@ export const getRecipesDetail = (id) => {
     }
 }
 
-export const createRecipe = (body) => {
-    return async (dispatch) => {
-        const response = await axios.post(RECIPES, body)
-    }
-};
-
 export const getDiets = () => {
     return async (dispatch) => {
         const { data } = await axios.get(ALL_DIETS);
