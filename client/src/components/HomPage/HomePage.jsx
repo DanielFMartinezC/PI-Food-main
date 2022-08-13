@@ -4,6 +4,7 @@ import RecipeList from "./RecipeList/RecipeList";
 import SearchInput from "./SearchInput/SearchInput";
 import Filters from "./Filters/Filters";
 import { getAllRecipes, getDiets } from '../../Redux/actions'
+// import NavBar from "../NavBar/NavBar";
 
 export default function HomePage() {
     const dispatch = useDispatch();
@@ -13,7 +14,7 @@ export default function HomePage() {
                 await dispatch(getAllRecipes());
                 await dispatch(getDiets())
             } catch (e) {
-                return new Error(e)
+                return e
             }
         };
         fn();
@@ -22,6 +23,9 @@ export default function HomePage() {
     if (recipes && diets) {
         return (
             <div>
+                {/* <div>
+                    <NavBar/>
+                </div> */}
                 <div>
                     <SearchInput />
                 </div>

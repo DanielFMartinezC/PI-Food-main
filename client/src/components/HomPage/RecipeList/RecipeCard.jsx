@@ -4,9 +4,12 @@ export default function RecipeCard({ id, image, title, diets }) {
     return (
         <div>
             <Link to={`/recipe/${id}`}>
-                <h3>{title}</h3>
-            </Link>           
-            <img src={image} alt={`${title}`} />
+                <p>See detail</p>
+            </Link>
+            <h3>{title}</h3>
+            {
+                image ? <img src={image} alt={`${title}`} /> : null
+            }
             <p>{`${diets}`} </p>
         </div>
     )

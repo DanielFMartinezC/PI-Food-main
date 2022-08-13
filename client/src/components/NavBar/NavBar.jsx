@@ -1,14 +1,29 @@
-import { Link } from 'react-router-dom';
+import React from 'react';
+import { useLocation } from 'react-router-dom';
+import ButtonHome from './Buttons/ButtonHome';
+import ButtonCreateRecipe from './Buttons/ButtonCreateRecipe';
 
 export default function NavBar() {
-    return (
-        <div>
-            <Link to='/Home'>
-                <button>Home</button>
-            </Link>
-            <Link to='/CreateRecipe'>
-                <button>Create recipe</button>
-            </Link>
-        </div>
-    )
+    const location = useLocation();
+    const { pathname } = location
+    if (pathname === '/') {
+        return null
+    } else if (pathname === '/CreateRecipe') {
+        return (
+            <div>
+                <ButtonHome />
+            </div>
+        )
+    } else {
+        return (
+            <div>
+                <div>
+                    <ButtonHome />
+                </div>
+                <div>
+                    <ButtonCreateRecipe />
+                </div>
+            </div>
+        )
+    }
 }
