@@ -12,14 +12,14 @@ h2 {
     width: fit-content;
     backdrop-filter: blur(4px);
     margin: auto;
-    margin-top: 125px;
+    margin-top: 80px;
 }
 
 .div1 {
     border-radius: 15px;
     width: 900px;
     padding-top: 25px;
-    padding-bottom: 25px;
+    padding-bottom: 50px;
     margin: auto;
     margin-top: 5px;
     margin-top: 0px;
@@ -27,7 +27,6 @@ h2 {
     backdrop-filter: blur(4px);
     display: flex;
     justify-content: space-around;
-    /* height: 100%; */
 }
 
 .divRecipes {
@@ -46,4 +45,27 @@ h2 {
 
 .summary {
     height: 150px;
+    resize: none;
+}
+
+.add {
+    margin-top: 15px;
+    border-radius: 5px;
+}
+
+.add:hover {
+    cursor: pointer;
+}
+
+.btnSub {
+    margin-top: 15px;
+    border-radius: 5px;
+}
+
+.btnSub:hover {
+    cursor: pointer;
+}
+
+.danger {
+    color: red
 }

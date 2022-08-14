@@ -4,7 +4,7 @@ import RecipeList from "./RecipeList/RecipeList";
 import SearchInput from "./SearchInput/SearchInput";
 import Filters from "./Filters/Filters";
 import { getAllRecipes, getDiets } from '../../Redux/actions'
-// import NavBar from "../NavBar/NavBar";
+import s from './HomePage.module.css';
 
 export default function HomePage() {
     const dispatch = useDispatch();
@@ -18,19 +18,21 @@ export default function HomePage() {
             }
         };
         fn();
-    },[])
+    }, [])
     const { recipes, diets } = useSelector((state) => state) || false;
     if (recipes && diets) {
         return (
-            <div>
+            <div className={s.root}>
                 <div>
                     <SearchInput />
                 </div>
-                <div>
-                    <Filters diets={diets} />
-                </div>
-                <div>
-                    <RecipeList recipes={recipes} />
+                <div className={s.FC}>
+                    <div>
+                        <Filters diets={diets} />
+                    </div>
+                    <div>
+                        <RecipeList recipes={recipes} />
+                    </div>
                 </div>
             </div>
         )

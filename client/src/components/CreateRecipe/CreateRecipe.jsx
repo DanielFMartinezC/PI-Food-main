@@ -32,7 +32,11 @@ export default function CreateRecipe() {
 
     function validateRecipe(input) {
         let error = {};
-
+        if (!input.title) {
+            error.name = 'Name is required'
+        } else {
+            error.name = ''
+        };
         if (input.healthScore > 100) {
             error.healthScore = 'Health score must be 100 or less'
         } else if (input.healthScore < 0) {
@@ -49,12 +53,6 @@ export default function CreateRecipe() {
         } else {
             error.image = ''
         };
-        if (!input.name) {
-            error.name = 'Name is required'
-        } else {
-            error.name = ''
-        }
-
         if (!input.summary) {
             error.summary = 'Summar is required'
         } else {
@@ -149,11 +147,17 @@ export default function CreateRecipe() {
     function handleDiets(e) {
         if (e.target.checked) {
             setDiets(dietFilter => [...dietFilter, e.target.value]);
-            setErrors(validateDiets([...dietsReact, e.target.value]))
+            setErrors({
+                ...errors,
+                ...validateDiets([...dietsReact, e.target.value])
+            })
         }
         if (!e.target.checked) {
             setDiets(dietFilter => [...dietFilter].filter(x => x !== e.target.value));
-            setErrors(validateDiets([...dietsReact].filter(x => x !== e.target.value)))
+            setErrors({
+                ...errors,
+                ...validateDiets([...dietsReact].filter(x => x !== e.target.value))
+            })
         };
 
     };
@@ -206,28 +210,28 @@ export default function CreateRecipe() {
                             <label>name: </label>
                             <input type='text' name="title" value={recipe.title} onChange={(e) => handleRecipe(e)} />
                             {
-                                errors.name ? <span>{errors.name}</span> : null
+                                errors.name ? <span className={s.danger}>{errors.name}</span> : null
                             }
                         </div>
                         <div>
                             <label>Health score: </label>
                             <input className={s.HS} type="number" name="healthScore" value={recipe.healthScore} onChange={(e) => handleRecipe(e)} />
                             {
-                                errors.healthScore ? <span>{errors.healthScore}</span> : null
+                                errors.healthScore ? <span className={s.danger}>{errors.healthScore}</span> : null
                             }
                         </div>
                         <div>
                             <label>Image URL: </label>
                             <input type='text' name='image' value={recipe.image} onChange={(e) => handleRecipe(e)} />
                             {
-                                errors.image ? <span>{errors.image}</span> : null
+                                errors.image ? <span className={s.danger}>{errors.image}</span> : null
                             }
                         </div>
                         <div className={s.summaryDiv}>
                             <label>Summary: </label>
-                            <input className={s.summary} type='text' name="summary" value={recipe.summary} onChange={(e) => handleRecipe(e)} />
+                            <textarea className={s.summary} type='text' name="summary" value={recipe.summary} onChange={(e) => handleRecipe(e)} />
                             {
-                                errors.summary ? <span>{errors.summary}</span> : null
+                                errors.summary ? <span className={s.danger}>{errors.summary}</span> : null
                             }
                         </div>
 
@@ -245,13 +249,16 @@ export default function CreateRecipe() {
                             })
                         }
                         {
-                            errors.steps ? <span>{errors.steps}</span> : null
+                            errors.steps ? <span className={s.danger}>{errors.steps}</span> : null
                         }
                         <div>
-                            <button onClick={(e) => { addStep(e) }}>Add</button>
+                            <button className={s.add} onClick={(e) => { addStep(e) }}>Add</button>
                         </div>
                         <div>
-                            <input type="submit" disabled={!submit} placeholder='Submit' />
+                            <button className={s.btnSub} type="submit" disabled={!submit}>Submit</button>
+                            {
+                                errors.beforeSubmit ? <span className={s.danger}>{errors.beforeSubmit}</span> : null
+                            }
                         </div>
                     </form>
                 </div>
@@ -264,14 +271,11 @@ export default function CreateRecipe() {
                             }) : <p>pere</p>
                         }
                         {
-                            errors.diets ? <span>{errors.diets}</span> : null
+                            errors.diets ? <span className={s.danger}>{errors.diets}</span> : null
                         }
                     </form>
                 </div>
             </div>
-            {
-                errors.beforeSubmit ? <p>{errors.beforeSubmit}</p> : null
-            }
         </div>
     )
 };

@@ -1,7 +1,7 @@
 const {
     apiKey,
   } = process.env;
-  const number = 1;
+  const number = 5;
 const complexSearch =` https://api.spoonacular.com/recipes/complexSearch?apiKey=${apiKey}&addRecipeInformation=true&number=${number}`;
 
 module.exports = {

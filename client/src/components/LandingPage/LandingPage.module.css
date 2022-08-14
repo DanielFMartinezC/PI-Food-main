@@ -9,7 +9,7 @@
 }   
 
 .btn {
-    -webkit-transition:all .9s ease;
+    transition: all .9s ease;
     margin-left: 63%;
     margin-top: 20%;
     font-family: 'Times New Roman', Times, serif;
@@ -22,6 +22,6 @@
 }
 
 .btn:hover {
-    -webkit-transform:scale(1.25);
+    transform: scale(1.25);
     cursor: pointer;
 }

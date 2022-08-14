@@ -1,0 +1,40 @@
+.list {
+    margin-top: 15px;
+    padding-left: 150px;
+}
+
+.btns {
+    display: flex;
+    justify-content: center;
+    margin-left: 100px;
+}
+
+.btnB {
+    border-radius: 5px;
+    border-style: double;
+}
+
+.btnN {
+    border-radius: 5px;
+}
+
+.btn {
+    border-radius: 5px;
+    margin: 5px;
+    width: 36px;
+    height: 36px;
+    padding-right: 1px;
+    padding-left: 1px;
+}
+
+.btnB:hover {
+    cursor: pointer;
+}
+
+.btnN {
+    cursor: pointer;
+}
+
+.btn {
+    cursor: pointer;
+}

@@ -1,3 +1,35 @@
-.title{
-    color:red
+.root {
+    border-radius: 10px;
+    background: hsla(0,0%,100%,.4);
+    text-align: center;
+    width: 550px;
+    height: 350px;
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+}
+
+.TD {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.a {
+    padding-top: 20px;
+    padding-right: 20px;
+}
+
+.title {
+    height: 55px;
+    width: 390px;
+    margin-bottom: 0;
+}
+
+.diets  {
+    margin-top: auto;
+}
+
+.image {
+    border-radius: 10px;
+    height: 231px;
+    width: 312px;
 }

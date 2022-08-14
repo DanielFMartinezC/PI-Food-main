@@ -2,6 +2,7 @@ import { useDispatch } from 'react-redux';
 import React from 'react';
 import { changeOrder, filterByDiets } from '../../../Redux/actions';
 import InputDiets from './InputDiets';
+import s from './CSS/Filters.module.css'
 
 export default function Filters({ diets }) {
     const [dietFilter, setDietFilter] = React.useState([])
@@ -16,21 +17,21 @@ export default function Filters({ diets }) {
         };
     }
     return (
-        <div>
+        <div className={s.root}>
             <p>Sort by:</p>
             <div>
                 <form onChange={(e) => {
                     e.preventDefault();
                     dispatch(changeOrder(e.target.value, e.target.name))
                 }} >
-                    <p>Alphabet order:</p>
-                    <select name='Alphabetical'>
+                    <p className={s.p}>Alphabet order:</p>
+                    <select name='Alphabetical' className={s.input}>
                         <option value="-">-</option>
                         <option value="Ascending">Ascending</option>
                         <option value="Descending">Descending</option>
                     </select>
-                    <p>Health score:</p>
-                    <select name='Numerical' >
+                    <p className={s.p}>Health score:</p>
+                    <select name='Numerical' className={s.input}>
                         <option value="-">-</option>
                         <option value="Ascending">Ascending</option>
                         <option value="Descending">Descending</option>

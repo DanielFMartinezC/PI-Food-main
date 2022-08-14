@@ -1,5 +1,6 @@
 import React from "react";
 import RecipeCard from "./RecipeCard";
+import s from './CSS/RecipeList.module.css'
 
 export default function RecipeList({ recipes }) {
     const [page, setPage] = React.useState(0);
@@ -28,22 +29,25 @@ export default function RecipeList({ recipes }) {
         }
 
         return (
-            <div>
-                <p>Let's see recipes</p>
-                <button onClick={prevPage}>Back</button>
-                {
-                    arr.map(x => {
-                        return <button key={x} value={x} onClick={(e) => btnPage(e)}>{x}</button>
-                    })
-                }
-                <button onClick={nextPage}>Next</button>
-
-                {
-                    handlerPage().map((x) => {
-                        return <RecipeCard key={x.id} id={x.id} image={x.image} title={x.title} diets={typeof (x.diets[0]) === 'object' ? x.diets.map((x) => x.name) : x.diets}
-                        />
-                    })
-                }
+            <div className={s.root}>
+                <h3>Let's see recipes</h3>
+                <div className={s.btns}>                   
+                    <button className={s.btnB} onClick={prevPage}>Back</button>
+                    {
+                        arr.map(x => {
+                            return <button className={s.btn} key={x} value={x} onClick={(e) => btnPage(e)}>{x}</button>
+                        })
+                    }
+                    <button className={s.btnN} onClick={nextPage}>Next</button>
+                </div>
+                <div className={s.list}>
+                    {
+                        handlerPage().map((x) => {
+                            return <RecipeCard key={x.id} id={x.id} image={x.image} title={x.title} diets={typeof (x.diets[0]) === 'object' ? x.diets.map((x) => x.name) : x.diets}
+                            />
+                        })
+                    }
+                </div>
             </div>
         )
     } else {
