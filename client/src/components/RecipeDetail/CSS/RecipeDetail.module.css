@@ -1,0 +1,34 @@
+.root{
+    background-color: rgb(237, 126, 47);
+    height:100vh; 
+}
+
+.title {
+    margin: auto;
+    text-align: center;
+    /* padding-top: 30px; */
+    padding-bottom: 30px;
+}
+
+.div1 {
+    display: flex;
+    justify-content: center;
+    padding-top: 30px;
+}
+
+.divInfo {
+    padding-left: 30px;
+}
+
+.image{
+    width: 350px;
+}
+
+.summary {
+    width: 850px;
+    margin: auto;
+    font-size: 17px;
+    text-align: center;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}

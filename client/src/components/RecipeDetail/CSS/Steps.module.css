@@ -1,0 +1,15 @@
+.root{
+    margin: auto;
+}  
+
+.title {
+    margin: auto;
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.inst {
+    margin: auto;
+    text-align: center;
+}

@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import React from 'react';
 import Steps from './Steps';
 import ReactHtmlParser from 'react-html-parser';
+import s from './CSS/RecipeDetail.module.css'
 
 const RecipeDetail = () => {
     const dispatch = useDispatch();
@@ -25,17 +26,31 @@ const RecipeDetail = () => {
             }
         }
         return (
-            <div>
-                <h3>{title}</h3>
-                {
-                    image ? <img src={image} alt={title} /> : <p>There is no picture</p>
-                }
-                {
-                    diets ? <p>Diet types: {renderDiets().map(x => ' ' + x + ',')}</p> : null
-                }
-                <p>Dish types: {dishTypes.map(x => ' ' + x + ',')}</p>
-                <p>Health schore: {healthScore}</p>
-                <div>{ReactHtmlParser(summary)}</div>
+            <div className={s.root}>
+                <div className={s.div1}>
+                    <div>
+                        {
+                            image ? <img src={image} alt={title} className={s.image} /> : <p>There is no picture</p>
+                        }
+                    </div>
+                    <div className={s.divInfo}>
+                    <h3 className={s.title}>{title}</h3>
+                        <div>
+                            {
+                                diets ? <p>Diet types: {renderDiets().map(x => ' ' + x + ',')}</p> : null
+                            }
+                        </div>
+                        {
+                            dishTypes ? <div>
+                                <p>Dish types: {dishTypes.map(x => ' ' + x + ',')}</p>
+                            </div> : null
+                        }
+                        <div>
+                            <p>Health schore: {healthScore}</p>
+                        </div>
+                    </div>
+                </div>
+                <div className={s.summary}>{ReactHtmlParser(summary)}</div>
                 {
                     steps ? steps.length && steps[0]['step'] ? steps.map(x => <Steps key={x.number} number={x.number} step={x.step} />) : <p>There is no instrucctions</p> : null
                 }
