@@ -4,6 +4,7 @@ import InputDiets from '../HomPage/Filters/InputDiets';
 import { getDiets } from "../../Redux/actions";
 import { RECIPES } from "../../constants";
 import axios from "axios";
+import s from './CreateRecipe.module.css'
 
 export default function CreateRecipe() {
     const dispatch = useDispatch();
@@ -196,59 +197,77 @@ export default function CreateRecipe() {
     }
 
     return (
-        <div>
+        <div className={s.root}>
             <h2>Here you can create your own recipe</h2>
-            <form onSubmit={(e) => { handleSubmit(e) }}>
-                <label>name: </label>
-                <input type='text' name="title" value={recipe.title} onChange={(e) => handleRecipe(e)} />
-                {
-                    errors.name ? <span>{errors.name}</span> : null
-                }
-                <label>Summary: </label>
-                <input type='text' name="summary" value={recipe.summary} onChange={(e) => handleRecipe(e)} />
-                {
-                    errors.summary ? <span>{errors.summary}</span> : null
-                }
-                <label>Health score: </label>
-                <input type="number" name="healthScore" value={recipe.healthScore} onChange={(e) => handleRecipe(e)} />
-                {
-                    errors.healthScore ? <span>{errors.healthScore}</span> : null
-                }
-                <label>Image URL: </label>
-                <input type='text' name='image' value={recipe.image} onChange={(e) => handleRecipe(e)} />
-                {
-                    errors.image ? <span>{errors.image}</span> : null
-                }
-                {
-                    recipe.steps.map((x, i) => {
-                        return (
-                            <div key={i}>
-                                <label>Step {i + 1}: </label>
-                                <input type="text" name={`step ${i + 1}`} id={i} data-number={i + 1} value={x.step} onChange={(e) => { handleStepsChange(e) }} />
-                                {
-                                    recipe.steps.length > 1 ? <button onClick={(e) => { removeStep(e, i) }}>Remove</button> : null
-                                }
-                            </div>
-                        )
-                    })
-                }
-                {
-                    errors.steps ? <span>{errors.steps}</span> : null
-                }
-                <button onClick={(e) => { addStep(e) }}>Add</button>
-                <input type="submit" disabled={!submit} />
-            </form>
-            <div>
-                <form onChange={(e) => { handleDiets(e) }}>
-                    {
-                        diets ? diets.map(x => {
-                            return <InputDiets key={x.id} value={x.name} />
-                        }) : <p>pere</p>
-                    }
-                    {
-                        errors.diets ? <span>{errors.diets}</span> : null
-                    }
-                </form>
+            <div className={s.div1}>
+                <div className={s.divRecipes}>
+                    <form onSubmit={(e) => { handleSubmit(e) }}>
+                        <div>
+                            <label>name: </label>
+                            <input type='text' name="title" value={recipe.title} onChange={(e) => handleRecipe(e)} />
+                            {
+                                errors.name ? <span>{errors.name}</span> : null
+                            }
+                        </div>
+                        <div>
+                            <label>Health score: </label>
+                            <input className={s.HS} type="number" name="healthScore" value={recipe.healthScore} onChange={(e) => handleRecipe(e)} />
+                            {
+                                errors.healthScore ? <span>{errors.healthScore}</span> : null
+                            }
+                        </div>
+                        <div>
+                            <label>Image URL: </label>
+                            <input type='text' name='image' value={recipe.image} onChange={(e) => handleRecipe(e)} />
+                            {
+                                errors.image ? <span>{errors.image}</span> : null
+                            }
+                        </div>
+                        <div className={s.summaryDiv}>
+                            <label>Summary: </label>
+                            <input className={s.summary} type='text' name="summary" value={recipe.summary} onChange={(e) => handleRecipe(e)} />
+                            {
+                                errors.summary ? <span>{errors.summary}</span> : null
+                            }
+                        </div>
+
+                        {
+                            recipe.steps.map((x, i) => {
+                                return (
+                                    <div key={i}>
+                                        <label>Step {i + 1}: </label>
+                                        <input type="text" name={`step ${i + 1}`} id={i} data-number={i + 1} value={x.step} onChange={(e) => { handleStepsChange(e) }} />
+                                        {
+                                            recipe.steps.length > 1 ? <button onClick={(e) => { removeStep(e, i) }}>Remove</button> : null
+                                        }
+                                    </div>
+                                )
+                            })
+                        }
+                        {
+                            errors.steps ? <span>{errors.steps}</span> : null
+                        }
+                        <div>
+                            <button onClick={(e) => { addStep(e) }}>Add</button>
+                        </div>
+                        <div>
+                            <input type="submit" disabled={!submit} placeholder='Submit' />
+                        </div>
+                    </form>
+                </div>
+                <div>
+                    <form onChange={(e) => { handleDiets(e) }}>
+                        <h4>Choose the diet type:</h4>
+                        {
+                            diets ? diets.map(x => {
+                                return <InputDiets key={x.id} value={x.name} />
+                            }) : <p>pere</p>
+                        }
+                        {
+                            errors.diets ? <span>{errors.diets}</span> : null
+                        }
+                    </form>
+                </div>
             </div>
             {
                 errors.beforeSubmit ? <p>{errors.beforeSubmit}</p> : null

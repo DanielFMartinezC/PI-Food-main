@@ -1,0 +1,29 @@
+.btnHome {
+    margin-top: 15px;
+    margin-left: 15px;
+    -webkit-transition: all .5s ease;
+    border-radius: 8px;
+    width: 75px;
+    background-color: rgb(255, 187, 62);
+    height: 30px;
+}
+
+.btnHome:hover {
+    -webkit-transform: scale(1.15);
+    background-color: orange;
+}
+
+.btnCR {
+    margin-left: 15px;
+    margin-top: 15px;
+    -webkit-transition: all .5s ease;
+    border-radius: 8px;
+    width: 100px;
+    background-color: rgb(255, 187, 62);
+    height: 30px;
+}
+
+.btnCR:hover {
+    -webkit-transform: scale(1.15);
+    background-color: orange;
+}

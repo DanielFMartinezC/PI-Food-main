@@ -14,6 +14,7 @@ export const FILTER_BY_DIETS = 'FILTER_BY_DIETS';
 export const ORIGINAL_ORDER = 'ORIGINAL_ORDER'
 
 export const getAllRecipes = () => {
+    console.log('hice un llamado a la API')
     return async (dispatch) => {
         const { data } = await axios.get(RECIPES);
         return dispatch({ type: GET_RECIPES, payload: data })

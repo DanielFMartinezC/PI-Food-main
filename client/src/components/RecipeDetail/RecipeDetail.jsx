@@ -31,9 +31,9 @@ const RecipeDetail = () => {
                     image ? <img src={image} alt={title} /> : <p>There is no picture</p>
                 }
                 {
-                    diets ? <p>{renderDiets()}</p> : null
+                    diets ? <p>{renderDiets().map(x => ' ' + x + ',')}</p> : null
                 }
-                <p>{dishTypes}</p>
+                <p>{dishTypes.map(x => ' ' + x + ',')}</p>
                 <p>{healthScore}</p>
                 <div>{ReactHtmlParser(summary)}</div>
                 {

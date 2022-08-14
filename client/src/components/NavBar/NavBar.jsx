@@ -2,6 +2,7 @@ import React from 'react';
 import { useLocation } from 'react-router-dom';
 import ButtonHome from './Buttons/ButtonHome';
 import ButtonCreateRecipe from './Buttons/ButtonCreateRecipe';
+import s from './NavBar.module.css';
 
 export default function NavBar() {
     const location = useLocation();
@@ -10,13 +11,13 @@ export default function NavBar() {
         return null
     } else if (pathname === '/CreateRecipe') {
         return (
-            <div>
+            <div className={s.root}>
                 <ButtonHome />
             </div>
         )
     } else {
         return (
-            <div>
+            <div className={s.root}>
                 <div>
                     <ButtonHome />
                 </div>

@@ -18,7 +18,7 @@ export default function HomePage() {
             }
         };
         fn();
-    })
+    },[])
     const { recipes, diets } = useSelector((state) => state) || false;
     if (recipes && diets) {
         return (
