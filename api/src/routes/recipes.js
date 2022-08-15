@@ -38,47 +38,47 @@ estructura de post
 router.get('/', async (req, res) => {
     try {
         const { name } = req.query;
-        // const { data } = await axios.get(complexSearch);
-        // const axiosResult = [];
-        // for (let i = 0; i < data.results.length; i++) {
-        //     const a = {
-        //         id: data.results[i]['id'],
-        //         image: data.results[i]['image'],
-        //         title: data.results[i]['title'],
-        //         diets: data.results[i]['diets'],
-        //         healthScore: data.results[i]['healthScore']
-        //     };
-        //     axiosResult.push(a)
-        // };
+        const { data } = await axios.get(complexSearch);
+        const axiosResult = [];
+        for (let i = 0; i < data.results.length; i++) {
+            const a = {
+                id: data.results[i]['id'],
+                image: data.results[i]['image'],
+                title: data.results[i]['title'],
+                diets: data.results[i]['diets'],
+                healthScore: data.results[i]['healthScore']
+            };
+            axiosResult.push(a)
+        };
         if (name) {
-        //     try {
-        //         const recipes = await Recipe.findAll({
-        //             where: {
-        //                 title: {
-        //                     [Op.like]: `%${name}%`
-        //                 }
-        //             },
-        //             include: [{
-        //                 model: Diet,
-        //                 through: {
-        //                     attributes: []
-        //                 },
-        //                 attributes: ['name']
-        //             }],
-        //         });
+            try {
+                const recipes = await Recipe.findAll({
+                    where: {
+                        title: {
+                            [Op.like]: `%${name}%`
+                        }
+                    },
+                    include: [{
+                        model: Diet,
+                        through: {
+                            attributes: []
+                        },
+                        attributes: ['name']
+                    }],
+                });
 
-        //         const filter = axiosResult.filter(x => x.title.includes(name));
-        //         const response = recipes.concat(filter)
-        //         if (response.length) {
-        //             return res.json(response)
-        //         } else {
-        //             res.status(400);
-        //             throw res.send('no recipe found')
-        //         }
-        //     } catch (e) {
-        //         res.status(e.response.status)
-        //         return res.json(e.message)
-            // }
+                const filter = axiosResult.filter(x => x.title.includes(name));
+                const response = recipes.concat(filter)
+                if (response.length) {
+                    return res.json(response)
+                } else {
+                    res.status(400);
+                    throw res.send('no recipe found')
+                }
+            } catch (e) {
+                res.status(e.response.status)
+                return res.json(e.message)
+            }
         } else {
             const recipes = await Recipe.findAll({
                 include: [{
@@ -89,7 +89,7 @@ router.get('/', async (req, res) => {
                     attributes: ['name']
                 }],
             });
-            return res.json(recipes)
+            // return res.json(recipes)
 
             const response = recipes.concat(axiosResult);
 

@@ -11,7 +11,8 @@ export const ORDER_DESCE = 'ORDER_DESC';
 export const HEALTH_ASCE = 'HEALTH_ASCE';
 export const HEALTH_DESCE = 'HEALTH_DESCE';
 export const FILTER_BY_DIETS = 'FILTER_BY_DIETS';
-export const ORIGINAL_ORDER = 'ORIGINAL_ORDER'
+export const ORIGINAL_ORDER = 'ORIGINAL_ORDER';
+export const RECIPE_DETAIL_RESET = 'RECIPE_DETAIL_RESET';
 
 export const getAllRecipes = () => {
     return async (dispatch) => {
@@ -75,8 +76,10 @@ export const changeOrder = (order, type) => {
     }
 };
 
-export const initialOrder = () => {
-
+export const recipeDetailReset = () => {
+    return {
+        type: RECIPE_DETAIL_RESET
+    }
 }
 
 export const filterByDiets = (diets) => {

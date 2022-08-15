@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import { getRecipesDetail } from '../../Redux/actions/index';
+import { getRecipesDetail, recipeDetailReset } from '../../Redux/actions/index';
 import { useDispatch, useSelector } from 'react-redux';
 import React from 'react';
 import Steps from './Steps';
@@ -14,7 +14,10 @@ const RecipeDetail = () => {
             await dispatch(getRecipesDetail(id))
         }
         fn();
-    })
+        return function(){
+            dispatch(recipeDetailReset())
+        }
+    }, [])
     const { recipeDetail } = useSelector((state) => state) || false;
     if (recipeDetail) {
         const { title, image, diets, dishTypes, healthScore, summary, steps } = recipeDetail;
@@ -34,7 +37,7 @@ const RecipeDetail = () => {
                         }
                     </div>
                     <div className={s.divInfo}>
-                    <h3 className={s.title}>{title}</h3>
+                        <h3 className={s.title}>{title}</h3>
                         <div>
                             {
                                 diets ? <p>Diet types: {renderDiets().map(x => ' ' + x + ',')}</p> : null
