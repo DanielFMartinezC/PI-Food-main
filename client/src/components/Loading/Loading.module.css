@@ -1,0 +1,18 @@
+.root {
+    position: relative;
+    z-index:10;
+    margin: 0;
+}
+
+.child {
+    margin: 0;
+    position: absolute;
+    /* bottom: 50%; */
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+.image {
+    margin-top: 450px;
+}

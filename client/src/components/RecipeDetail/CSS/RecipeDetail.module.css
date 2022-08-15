@@ -1,14 +1,5 @@
 .root{
     background-color: rgb(237, 126, 47);
-    height:100vh;
-     
-}
-
-.title {
-    margin: auto;
-    text-align: center;
-    /* padding-top: 30px; */
-    padding-bottom: 30px;
 }
 
 .div1 {
@@ -17,12 +8,20 @@
     padding-top: 30px;
 }
 
+.title {
+    margin: auto;
+    text-align: center;
+    padding-top: 35px;
+    padding-bottom: 20px;
+}
+
 .divInfo {
     padding-left: 30px;
 }
 
 .image{
     width: 350px;
+    border-radius: 10px;
 }
 
 .summary {
@@ -32,4 +31,14 @@
     text-align: center;
     padding-top: 20px;
     padding-bottom: 20px;
+}
+
+.steps {
+    padding-bottom: 50px;
+}
+
+.p {
+    margin: auto;
+    text-align: center;
+    padding-bottom: 50px;
 }

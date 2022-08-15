@@ -18,7 +18,6 @@ export default function RecipeList({ recipes }) {
         }
     };
     function btnPage(e) {
-        console.log(e.target.value);
         setPage((9 * e.target.value) - 9)
     }
     if (recipes) {

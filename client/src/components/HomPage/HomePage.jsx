@@ -5,6 +5,7 @@ import SearchInput from "./SearchInput/SearchInput";
 import Filters from "./Filters/Filters";
 import { getAllRecipes, getDiets } from '../../Redux/actions'
 import s from './HomePage.module.css';
+import Loading from "../Loading/Loading";
 
 export default function HomePage() {
     const dispatch = useDispatch();
@@ -20,6 +21,7 @@ export default function HomePage() {
         fn();
     }, [])
     const { recipes, diets } = useSelector((state) => state) || false;
+    
     if (recipes && diets) {
         return (
             <div className={s.root}>
@@ -38,7 +40,7 @@ export default function HomePage() {
         )
     } else {
         return (
-            <p>cargando</p>
+            <Loading/>
         )
     }
 }
