@@ -29,7 +29,7 @@ export default function RecipeList({ recipes }) {
 
         return (
             <div className={s.root}>
-                <h3>Let's see recipes</h3>
+                <h3 className={s.h3}>Let's see recipes</h3>
                 <div className={s.btns}>                   
                     <button className={s.btnB} onClick={prevPage}>Back</button>
                     {

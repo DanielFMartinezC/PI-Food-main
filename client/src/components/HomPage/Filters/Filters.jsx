@@ -40,12 +40,14 @@ export default function Filters({ diets }) {
             </div>
             <div>
                 <form onChange={(e) => { handleCheckBox(e) }}>
-                    <p>Diet types:</p>
+                    <p className={s.p}>Diet types:</p>
+                    <div>
                     {
                         diets.map(x => {
                             return <InputDiets key={x.id} value={x.name} />
                         })
                     }
+                    </div>
                 </form>
             </div>
         </div>

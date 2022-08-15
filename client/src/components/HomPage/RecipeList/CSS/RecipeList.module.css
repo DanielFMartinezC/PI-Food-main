@@ -1,3 +1,7 @@
+.h3 {
+    margin-left: 20px;
+}
+
 .list {
     margin-top: 15px;
     padding-left: 150px;
@@ -29,12 +33,15 @@
 
 .btnB:hover {
     cursor: pointer;
+    background: rgba(189, 187, 187, 0.532);
 }
 
-.btnN {
+.btnN:hover {
     cursor: pointer;
+    background: rgba(189, 187, 187, 0.532);
 }
 
-.btn {
+.btn:hover {
     cursor: pointer;
+    background: rgba(189, 187, 187, 0.532);
 }

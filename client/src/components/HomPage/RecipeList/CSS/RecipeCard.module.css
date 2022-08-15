@@ -18,6 +18,15 @@
     padding-right: 20px;
 }
 
+.btn {
+    border-radius: 5px;
+}
+
+.btn:hover {
+    cursor: pointer;
+    background: rgba(189, 187, 187, 0.532);
+}
+
 .title {
     height: 55px;
     width: 390px;

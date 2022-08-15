@@ -7,7 +7,7 @@ export default function RecipeCard({ id, image, title, diets }) {
         <div className={s.root}>
             <div className={s.TD}>
             <Link className={s.a} to={`/recipe/${id}`}>
-                <p>See detail</p>
+                <button className={s.btn}>See detail</button>
             </Link>
             <h3 className={s.title}>{title}</h3>
             </div>
