@@ -161,12 +161,12 @@ router.post('/', async (req, res) => {
             findDiets.push(await Diet.findOne({
                 where: {
                     name: diets[i]
-                }
+                },
+                attributes: ['id']
             }))
         };
-
-        const idDiets = findDiets.map(x => x.id);
-        await newRecipe.addDiets(idDiets)
+        
+        await newRecipe.addDiets(findDiets)
         return res.send('Your recipe was created successfully');
     } catch (e) {
         res.status(e.response.status)
