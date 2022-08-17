@@ -89,10 +89,7 @@ router.get('/', async (req, res) => {
                     attributes: ['name']
                 }],
             });
-            // return res.json(recipes)
-
             const response = recipes.concat(axiosResult);
-
             return res.json(response)
         }
 
