@@ -15,7 +15,7 @@ export default function HomePage() {
                 await dispatch(getAllRecipes());
                 await dispatch(getDiets())
             } catch (e) {
-                return e
+                return e.message
             }
         };
         fn();
