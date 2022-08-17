@@ -72,7 +72,7 @@ const RecipeDetail = () => {
                     <div className={s.summary}>{ReactHtmlParser(summary)}</div>
                     <div className={s.steps}>
                         {
-                            steps ? steps.length && steps[0]['step'] ? steps.map(x => <Steps key={x.number} number={x.number} step={x.step} />) : <p className={s.p}>There is no instrucctions</p> : null
+                            steps.length && steps[0]['step'] ? steps.map(x => <Steps key={x.number} number={x.number} step={x.step} />) : <p className={s.p}>There is no instrucctions</p>
                         }
                     </div>
                 </div>

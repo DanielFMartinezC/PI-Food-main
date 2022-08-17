@@ -76,15 +76,13 @@ export default function CreateRecipe() {
         let error = ''
 
         if (input.length > 1) {
-
             for (let i = 0; i < input.length; i++) {
-
                 if (!input[i]["step"]) {
                     error = 'All steps fields must be filled';
                     return error
                 }
             };
-
+            
             return error
         }
     }
