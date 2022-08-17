@@ -35,9 +35,9 @@ const RecipeDetail = () => {
             return diets
         }
     };
-    console.log(recipeDetail);
+
     if (recipeDetail) {
-        console.log(recipeDetail)
+
         const { title, image, diets, dishTypes, healthScore, summary, steps } = recipeDetail;
         if (loading) {
             return (

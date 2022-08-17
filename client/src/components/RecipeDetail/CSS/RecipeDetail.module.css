@@ -1,6 +1,10 @@
 .root{
     background-color:  #858f81;
-    
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding-bottom: 127px;
 }
 
 .div1 {
@@ -15,9 +19,6 @@
 }
 
 .title {
-    /* background: rgba(200, 1, 1, 0.292); */
-    /* background-color: #0F4C5C; */
-    /* color: red; */
     font-size: 30px;
     margin: auto;
     text-align: center;
@@ -35,7 +36,6 @@
 }
 
 .summary {
-    /* background-color: #dcccbb; */
     background-color: #CEE0DC;
     width: 850px;
     margin: auto;
@@ -57,5 +57,7 @@
 .p {
     margin: auto;
     text-align: center;
-    padding-bottom: 50px;
+    width: 850px;
+    background-color: #CEE0DC;
+    
 }
