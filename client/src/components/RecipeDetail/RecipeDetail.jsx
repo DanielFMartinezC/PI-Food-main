@@ -38,7 +38,7 @@ const RecipeDetail = () => {
 
     if (recipeDetail) {
 
-        const { title, image, diets, dishTypes, healthScore, summary, steps } = recipeDetail;
+        const { title, image, diets, dishTypes, healthScore, summary, steps, aggregateLikes } = recipeDetail;
         if (loading) {
             return (
                 <Loading />
@@ -54,6 +54,9 @@ const RecipeDetail = () => {
                             }
                         </div>
                         <div className={s.divInfo}>
+                            <div>
+                                <p> aggregateLikes: {aggregateLikes}</p>
+                            </div>
                             <div>
                                 {
                                     diets ? <p>Diet types: {renderDiets(diets).map(x => ' ' + x + ',')}</p> : null
@@ -72,7 +75,7 @@ const RecipeDetail = () => {
                     <div className={s.summary}>{ReactHtmlParser(summary)}</div>
                     <div className={s.steps}>
                         {
-                            steps.length && steps[0]['step'] ? steps.map(x => <Steps key={x.number} number={x.number} step={x.step} />) : <p className={s.p}>There is no instrucctions</p>
+                            steps ? steps.length && steps[0]['step'] ? steps.map(x => <Steps key={x.number} number={x.number} step={x.step} />) : <p className={s.p}>There is no instrucctions</p> : null
                         }
                     </div>
                 </div>

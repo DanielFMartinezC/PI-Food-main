@@ -46,7 +46,7 @@ router.get('/', async (req, res) => {
                 image: data.results[i]['image'],
                 title: data.results[i]['title'],
                 diets: data.results[i]['diets'],
-                healthScore: data.results[i]['healthScore']
+                healthScore: data.results[i]['healthScore'],
             };
             axiosResult.push(a)
         };
@@ -72,7 +72,7 @@ router.get('/', async (req, res) => {
                 if (response.length) {
                     return res.json(response)
                 } else {
-                    res.status(400);
+                    res.status(404);
                     throw res.send('no recipe found')
                 }
             } catch (e) {
@@ -131,7 +131,8 @@ router.get('/:id', async (req, res) => {
                     diets: data.diets,
                     summary: data.summary,
                     healthScore: data.healthScore,
-                    steps: data.analyzedInstructions.length ? data.analyzedInstructions[0]['steps'] : []
+                    steps: data.analyzedInstructions.length ? data.analyzedInstructions[0]['steps'] : [],
+                    aggregateLikes: data.aggregateLikes
                 };
                 return res.json(axiosResult)
             }

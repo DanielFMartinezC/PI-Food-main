@@ -10,7 +10,7 @@ export default function CreateRecipe() {
     const dispatch = useDispatch();
     React.useEffect(() => {
         dispatch(getDiets())
-    });
+    }, []);
 
     const { diets } = useSelector((state) => state) || false;
 
