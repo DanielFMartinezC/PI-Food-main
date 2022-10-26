@@ -39,17 +39,18 @@ router.get('/', async (req, res) => {
     try {
         const { name } = req.query;
         const { data } = await axios.get(complexSearch);
-        const axiosResult = [];
-        for (let i = 0; i < data.results.length; i++) {
-            const a = {
-                id: data.results[i]['id'],
-                image: data.results[i]['image'],
-                title: data.results[i]['title'],
-                diets: data.results[i]['diets'],
-                healthScore: data.results[i]['healthScore'],
-            };
-            axiosResult.push(a)
-        };
+        // console.log(data)
+        // const axiosResult = [];
+        // for (let i = 0; i < data.results.length; i++) {
+        //     const a = {
+        //         id: data.results[i]['id'],
+        //         image: data.results[i]['image'],
+        //         title: data.results[i]['title'],
+        //         diets: data.results[i]['diets'],
+        //         healthScore: data.results[i]['healthScore'],
+        //     };
+        //     axiosResult.push(a)
+        // };
         if (name) {
             try {
                 const recipes = await Recipe.findAll({
@@ -67,7 +68,7 @@ router.get('/', async (req, res) => {
                     }],
                 });
 
-                const filter = axiosResult.filter(x => x.title.includes(name));
+                const filter = data.results.filter(x => x.title.includes(name));
                 const response = recipes.concat(filter)
                 if (response.length) {
                     return res.json(response)
@@ -89,7 +90,7 @@ router.get('/', async (req, res) => {
                     attributes: ['name']
                 }],
             });
-            const response = recipes.concat(axiosResult);
+            const response = recipes.concat(data.results);
             return res.json(response)
         }
 
