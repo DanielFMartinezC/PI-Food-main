@@ -39,18 +39,7 @@ router.get('/', async (req, res) => {
     try {
         const { name } = req.query;
         const { data } = await axios.get(complexSearch);
-        // console.log(data)
-        // const axiosResult = [];
-        // for (let i = 0; i < data.results.length; i++) {
-        //     const a = {
-        //         id: data.results[i]['id'],
-        //         image: data.results[i]['image'],
-        //         title: data.results[i]['title'],
-        //         diets: data.results[i]['diets'],
-        //         healthScore: data.results[i]['healthScore'],
-        //     };
-        //     axiosResult.push(a)
-        // };
+
         if (name) {
             try {
                 const recipes = await Recipe.findAll({
@@ -175,3 +164,13 @@ router.post('/', async (req, res) => {
         return res.json(e.message)
     }
 });
+
+router.post('/copia', async (req, res) => {
+    try {
+        const { data } = await axios.get(complexSearch);
+        await Recipe.bulkCreate(data.results)
+    } catch (e) {
+        res.status(e.response.status)
+        return res.json(e.message)
+    }
+})
