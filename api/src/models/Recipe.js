@@ -15,7 +15,7 @@ module.exports = (sequelize) => {
       allowNull: false,
     },
     summary: {
-      type: DataTypes.STRING,
+      type: DataTypes.STRING(2500),
       allowNull: false
     },
     healthScore: {
@@ -28,5 +28,5 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
       defaultValue: null
     }
-  });
+  }, { paranoid: true });
 };

@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const router = Router();
-const { Recipe, Diet, RecipeDiet, Op } = require('../db');
+const { Recipe, Diet, Op } = require('../db');
 const axios = require('axios');
 const { complexSearch } = require('../Utils/Constants');
 const createDiet = require('../controller/DietsController');
@@ -156,7 +156,7 @@ router.post('/', async (req, res) => {
                 attributes: ['id']
             }))
         };
-        
+
         await newRecipe.addDiets(findDiets)
         return res.send('Your recipe was created successfully');
     } catch (e) {
@@ -168,9 +168,37 @@ router.post('/', async (req, res) => {
 router.post('/copia', async (req, res) => {
     try {
         const { data } = await axios.get(complexSearch);
-        await Recipe.bulkCreate(data.results)
+        // const axiosResult = [];
+
+        for (let i = 0; i < data.results.length; i++) {
+            const a = {
+                id: uuidv4(),
+                image: data.results[i]['image'],
+                title: data.results[i]['title'],
+                summary: data.results[i]['summary'],
+                healthScore: data.results[i]['healthScore'],
+                steps: data.results[i]['analyzedInstructions'].length ? data.results[i]['analyzedInstructions'][0]['steps'] : []
+            };
+            const newRecipe = await Recipe.create(a)
+            // axiosResult.push(a);
+            const findDiets = [];
+            // console.log(data.results[i]['diets'].length)
+            for (let j = 0; j < data.results[i]['diets'].length; j++) {
+
+                findDiets.push(await Diet.findOne({
+                    where: {
+                        name: data.results[i]['diets'][j]
+                    },
+                    attributes: ['id']
+                }))
+            };
+
+            await newRecipe.addDiets(findDiets)
+        };
+        // const respons = await Recipe.bulkCreate(axiosResult);
+        return res.send('asdsa')
     } catch (e) {
-        res.status(e.response.status)
+        res.status(500)
         return res.json(e.message)
     }
 })
