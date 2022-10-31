@@ -9,6 +9,12 @@ function compareFunctionByTitle(x, y) {
     return 0
 };
 
+function filterByDiets(x, list) {
+    for (let j = 0; j < x.diets.length; j++) {
+        return x.diets[j]['name'].includes(list)
+    }
+}
+
 function compareFunctionByHealthScore(x, y) {
     if (x.healthScore < y.healthScore) {
         return -1
@@ -86,8 +92,17 @@ const rootReducer = (state = initialState, action) => {
                 }
             }
             let filteredRecipes = [];
+            // for (let i = 0; i < payload.length; i++) {
+            //     filteredRecipes = filteredRecipes.concat(state.orderRecipes.filter(x => x.diets[j]['name'] === payload[i]));
+            // };
             for (let i = 0; i < payload.length; i++) {
-                filteredRecipes = filteredRecipes.concat(state.orderRecipes.filter(x => x.diets.includes(payload[i])))
+                filteredRecipes = filteredRecipes.concat(state.orderRecipes.filter(function (x) {
+                    for(let j = 0; j < x.diets.length; j++) {
+                        if(x.diets[j]['name'] === payload[i]) {
+                            return true
+                        }
+                    }
+                }));
             };
             const set = new Set(filteredRecipes)
             const response = [...set];

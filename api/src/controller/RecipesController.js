@@ -1,14 +1,17 @@
+const { Recipe, Diet, Op } = require('../db');
+const { v4: uuidv4, validate } = require('uuid');
 const getRecipes = async (req, res) => {
     try {
         const { name } = req.query;
-        const { data } = await axios.get(complexSearch);
+        // const { data } = await axios.get(complexSearch);
 
         if (name) {
             try {
+                const search = name[0].toUpperCase() + name.substring(1)
                 const recipes = await Recipe.findAll({
                     where: {
                         title: {
-                            [Op.like]: `%${name}%`
+                            [Op.like]: `%${search}%`
                         }
                     },
                     include: [{
@@ -20,16 +23,17 @@ const getRecipes = async (req, res) => {
                     }],
                 });
 
-                const filter = data.results.filter(x => x.title.includes(name));
-                const response = recipes.concat(filter)
-                if (response.length) {
-                    return res.json(response)
+                // const filter = data.results.filter(x => x.title.includes(name));
+                // const response = recipes.concat(filter)
+                if (recipes) {
+                    // return res.json(response)
+                    return res.json(recipes)
                 } else {
                     res.status(404);
                     throw res.send('no recipe found')
                 }
             } catch (e) {
-                res.status(e.response.status)
+                res.status(500)
                 return res.json(e.message)
             }
         } else {
@@ -42,12 +46,13 @@ const getRecipes = async (req, res) => {
                     attributes: ['name']
                 }],
             });
-            const response = recipes.concat(data.results);
-            return res.json(response)
+            // const response = recipes.concat(data.results);
+            // return res.json(response)
+            return res.json(recipes)
         }
 
     } catch (e) {
-        res.status(e.response.status)
+        res.status(500)
         return res.json(e.message)
     }
 };
@@ -92,7 +97,7 @@ const getRecipesById = async (req, res) => {
         }
 
     } catch (e) {
-        res.status(e.response.status)
+        res.status(500)
         return res.json(e.message)
     }
 };
@@ -123,7 +128,7 @@ const createRecipe = async (req, res) => {
         await newRecipe.addDiets(findDiets)
         return res.send('Your recipe was created successfully');
     } catch (e) {
-        res.status(e.response.status)
+        res.status(500)
         return res.json(e.message)
     }
 };

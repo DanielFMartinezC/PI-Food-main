@@ -41,7 +41,7 @@ router.get('/', getRecipes);
 
 router.get('/:id', getRecipesById);
 
-router.post('/', createDiet);
+router.post('/', createRecipe);
 
 router.post('/copia', async (req, res) => {
     try {

@@ -27,6 +27,6 @@ module.exports = (sequelize) => {
     image: {
       type: DataTypes.STRING,
       defaultValue: null
-    }
+    },
   }, { paranoid: true });
 };
