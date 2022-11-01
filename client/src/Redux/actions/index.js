@@ -80,10 +80,10 @@ export const recipeDetailReset = () => {
     return {
         type: RECIPE_DETAIL_RESET
     }
-}
+};
 
 export const filterByDiets = (diets) => {
     return {
         type: FILTER_BY_DIETS, payload: diets
     }
-}
+};

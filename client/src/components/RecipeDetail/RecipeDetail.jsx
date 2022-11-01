@@ -5,7 +5,9 @@ import React from 'react';
 import Steps from './Steps';
 import ReactHtmlParser from 'react-html-parser';
 import Loading from '../Loading/Loading';
-import s from './CSS/RecipeDetail.module.css'
+import s from './CSS/RecipeDetail.module.css';
+import axios from "axios";
+import { RECIPES } from "../../constants";
 
 const RecipeDetail = () => {
     const dispatch = useDispatch();
@@ -35,6 +37,21 @@ const RecipeDetail = () => {
             return diets
         }
     };
+    function showAlert(response) {
+        // window.confirm(response)
+        if (window.confirm(response)) {
+            window.open("/Home", "_self");
+        }
+    };
+    function deleteRecipe(id) {
+        axios.delete(`${RECIPES}/${id}`).then(response => showAlert(response.data))
+    };
+
+    function confirmDelet(id) {
+        if (window.confirm('Are you sure to delete the recipe? you can restore it later')) {
+            deleteRecipe(id)
+        }
+    }
 
     if (recipeDetail) {
 
@@ -77,6 +94,9 @@ const RecipeDetail = () => {
                         {
                             steps ? steps.length && steps[0]['step'] ? steps.map(x => <Steps key={x.number} number={x.number} step={x.step} />) : <p className={s.p}>There is no instrucctions</p> : null
                         }
+                    </div>
+                    <div className={s.divbtnDelete}>
+                        <button className={s.btnDelete} onClick={() => confirmDelet(id)}>Delete Recipe</button>
                     </div>
                 </div>
             )

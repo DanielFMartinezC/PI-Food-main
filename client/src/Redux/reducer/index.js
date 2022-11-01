@@ -28,7 +28,8 @@ const initialState = {
     recipes: [],
     orderRecipes: [],
     diets: [],
-    recipeDetail: {}
+    recipeDetail: {},
+    deletedRecipes: []
 };
 
 const rootReducer = (state = initialState, action) => {

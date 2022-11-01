@@ -46,8 +46,6 @@
 }
 
 .steps {
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
     margin: auto;
     width: 850px;
     background-color: #CEE0DC;
@@ -60,4 +58,22 @@
     width: 850px;
     background-color: #CEE0DC;
     
+}
+
+.divbtnDelete {
+    margin: auto;
+    text-align: center;
+    background-color: #CEE0DC;
+    width: 850px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    padding-bottom: 50px;
+}
+
+.btnDelete {
+    border-radius: 5px;
+}
+
+.btnDelete:hover {
+    cursor: pointer;
 }

@@ -70,7 +70,7 @@ const getRecipesById = async (req, res) => {
                     },
                     attributes: ['name']
                 }],
-                paranoid: false
+                // paranoid: false
             });
             if (!recipe) {
                 res.status(404);
