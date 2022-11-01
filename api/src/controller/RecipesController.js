@@ -1,40 +1,36 @@
 const { Recipe, Diet, Op } = require('../db');
 const { v4: uuidv4, validate } = require('uuid');
+
 const getRecipes = async (req, res) => {
     try {
         const { name } = req.query;
         // const { data } = await axios.get(complexSearch);
 
         if (name) {
-            try {
-                const search = name[0].toUpperCase() + name.substring(1)
-                const recipes = await Recipe.findAll({
-                    where: {
-                        title: {
-                            [Op.like]: `%${search}%`
-                        }
+            const search = name[0].toUpperCase() + name.substring(1)
+            const recipes = await Recipe.findAll({
+                where: {
+                    title: {
+                        [Op.like]: `%${search}%`
+                    }
+                },
+                include: [{
+                    model: Diet,
+                    through: {
+                        attributes: []
                     },
-                    include: [{
-                        model: Diet,
-                        through: {
-                            attributes: []
-                        },
-                        attributes: ['name']
-                    }],
-                });
+                    attributes: ['name']
+                }],
+            });
 
-                // const filter = data.results.filter(x => x.title.includes(name));
-                // const response = recipes.concat(filter)
-                if (recipes) {
-                    // return res.json(response)
-                    return res.json(recipes)
-                } else {
-                    res.status(404);
-                    throw res.send('no recipe found')
-                }
-            } catch (e) {
-                res.status(500)
-                return res.json(e.message)
+            // const filter = data.results.filter(x => x.title.includes(name));
+            // const response = recipes.concat(filter)
+            if (recipes) {
+                // return res.json(response)
+                return res.json(recipes)
+            } else {
+                res.status(404);
+                return res.send('no recipe found')
             }
         } else {
             const recipes = await Recipe.findAll({
@@ -48,7 +44,12 @@ const getRecipes = async (req, res) => {
             });
             // const response = recipes.concat(data.results);
             // return res.json(response)
-            return res.json(recipes)
+            if (recipes.length) {
+                return res.json(recipes)
+            } else {
+                res.status(404);
+                return res.json('recipes not found')
+            }
         }
 
     } catch (e) {
@@ -69,6 +70,7 @@ const getRecipesById = async (req, res) => {
                     },
                     attributes: ['name']
                 }],
+                paranoid: false
             });
             if (!recipe) {
                 res.status(404);
@@ -102,6 +104,28 @@ const getRecipesById = async (req, res) => {
     }
 };
 
+const deletedRecipes = async (req, res) => {
+    try {
+        const recipes = await Recipe.findAll({
+            where: {
+                deletedAt: {
+                    [Op.ne]: null
+                }
+            },
+            paranoid: false
+        });
+        if (recipes.length) {
+            return res.json(recipes)
+        } else {
+            res.status(404);
+            return res.json('recipes not found')
+        }
+    } catch (e) {
+        res.status(500);
+        return res.json(e.message)
+    }
+}
+
 const createRecipe = async (req, res) => {
     try {
         const { recipe, diets } = req.body;
@@ -133,8 +157,49 @@ const createRecipe = async (req, res) => {
     }
 };
 
+const deleteRecipe = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const query = await Recipe.destroy({
+            where: {
+                id: id
+            }
+        });
+        if (query < 1) {
+            res.status(404);
+            return res.json('Recipe not found')
+        }
+        return res.json('Recipe was deleted')
+    } catch (e) {
+        res.status(500);
+        return res.json(e.message)
+    }
+};
+
+const restoreRecipe = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const query = await Recipe.restore({
+            where: {
+                id: id
+            }
+        });
+        if (query < 1) {
+            res.status(404);
+            return res.json('Recipe not found')
+        }
+        return res.json('Recipe was restored')
+    } catch (e) {
+        res.status(500);
+        return res.json(e.message)
+    }
+};
+
 module.exports = {
     getRecipes,
     getRecipesById,
-    createRecipe
-}
+    createRecipe,
+    deleteRecipe,
+    restoreRecipe,
+    deletedRecipes
+}   

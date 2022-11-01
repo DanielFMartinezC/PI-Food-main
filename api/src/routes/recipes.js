@@ -1,4 +1,4 @@
-const { getRecipes, getRecipesById, createRecipe } = require('../controller/RecipesController')
+const { getRecipes, getRecipesById, createRecipe, deleteRecipe, restoreRecipe, deletedRecipes } = require('../controller/RecipesController')
 
 const { Router } = require('express');
 const router = Router();
@@ -38,6 +38,8 @@ estructura de post
 */
 
 router.get('/', getRecipes);
+
+router.get('/deletedRecipes', deletedRecipes);
 
 router.get('/:id', getRecipesById);
 
@@ -79,4 +81,8 @@ router.post('/copia', async (req, res) => {
         res.status(500)
         return res.json(e.message)
     }
-})
+});
+
+router.delete('/:id', deleteRecipe);
+
+router.patch('/:id', restoreRecipe)
