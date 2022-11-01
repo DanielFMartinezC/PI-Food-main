@@ -85,4 +85,4 @@ router.post('/copia', async (req, res) => {
 
 router.delete('/:id', deleteRecipe);
 
-router.patch('/:id', restoreRecipe)
+router.put('/:id', restoreRecipe)

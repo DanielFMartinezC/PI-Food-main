@@ -29,3 +29,13 @@
     -webkit-transform: scale(1.15);
     background-color: orange;
 }
+
+.btnRR {
+    margin-left: 200px;
+    margin-top: 18px;
+    -webkit-transition: all .5s ease;
+    border-radius: 8px;
+    width: 100px;
+    background-color: rgb(255, 187, 62);
+    height: 30px;
+}

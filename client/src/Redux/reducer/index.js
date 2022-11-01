@@ -1,4 +1,4 @@
-import { GET_RECIPES, FILTER_BY_DIETS, GET_RECIPES_BY_NAME, GET_RECIPE_DETAIL, GET_DIETS, ORDER_ASCE, ORDER_DESCE, HEALTH_ASCE, HEALTH_DESCE, ORIGINAL_ORDER, RECIPE_DETAIL_RESET } from '../actions/index';
+import { GET_RECIPES, FILTER_BY_DIETS, GET_RECIPES_BY_NAME, GET_RECIPE_DETAIL, GET_DIETS, ORDER_ASCE, ORDER_DESCE, HEALTH_ASCE, HEALTH_DESCE, ORIGINAL_ORDER, RECIPE_DETAIL_RESET, GET_DELETED_RECIPES } from '../actions/index';
 
 function compareFunctionByTitle(x, y) {
     if (x.title < y.title) {
@@ -8,12 +8,6 @@ function compareFunctionByTitle(x, y) {
     };
     return 0
 };
-
-function filterByDiets(x, list) {
-    for (let j = 0; j < x.diets.length; j++) {
-        return x.diets[j]['name'].includes(list)
-    }
-}
 
 function compareFunctionByHealthScore(x, y) {
     if (x.healthScore < y.healthScore) {
@@ -111,11 +105,15 @@ const rootReducer = (state = initialState, action) => {
                 ...state,
                 recipes: response
             };
-        case RECIPE_DETAIL_RESET:
-            console.log('lipié el stado')
+        case RECIPE_DETAIL_RESET:  
             return {
                 ...state,
                 recipeDetail: {}
+            };
+        case GET_DELETED_RECIPES:
+            return {
+                ...state,
+                deletedRecipes: action.payload
             }
     }
 };

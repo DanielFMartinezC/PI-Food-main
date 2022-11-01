@@ -13,6 +13,7 @@ export const HEALTH_DESCE = 'HEALTH_DESCE';
 export const FILTER_BY_DIETS = 'FILTER_BY_DIETS';
 export const ORIGINAL_ORDER = 'ORIGINAL_ORDER';
 export const RECIPE_DETAIL_RESET = 'RECIPE_DETAIL_RESET';
+export const GET_DELETED_RECIPES = 'GET_DELETED_RECIPES';
 
 export const getAllRecipes = () => {
     return async (dispatch) => {
@@ -87,3 +88,10 @@ export const filterByDiets = (diets) => {
         type: FILTER_BY_DIETS, payload: diets
     }
 };
+
+export const getDeletedRecipes = () => {
+    return async (dispatch) => {
+        const { data } = await axios.get(RECIPES + '/deletedRecipes');
+        return dispatch({ type: GET_DELETED_RECIPES, payload: data })
+    }
+}

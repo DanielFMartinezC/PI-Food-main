@@ -6,6 +6,7 @@ import RecipeDetail from './components/RecipeDetail/RecipeDetail';
 import CreateRecipe from './components/CreateRecipe/CreateRecipe';
 import NavBar from './components/NavBar/NavBar';
 import HomePage from './components/HomPage/HomePage';
+import DeletedRecipes from './components/RestoreRecipes/DeletedRecipes.jsx'
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
       <Route path='/Home' component={HomePage}/>
       <Route path='/recipe/:id' component={RecipeDetail}/>
       <Route path='/CreateRecipe' component={CreateRecipe} />
+      <Route path='/DeletedRecipes' component={DeletedRecipes}/>
     </React.Fragment>
   );
 }

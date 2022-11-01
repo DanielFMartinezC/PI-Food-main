@@ -2,6 +2,7 @@ import React from 'react';
 import { useLocation } from 'react-router-dom';
 import ButtonHome from './Buttons/ButtonHome';
 import ButtonCreateRecipe from './Buttons/ButtonCreateRecipe';
+import ButtonRestoreRecipe from './Buttons/ButtonRestoreRecipes'
 import s from './NavBar.module.css';
 
 export default function NavBar() {
@@ -23,6 +24,9 @@ export default function NavBar() {
                 </div>
                 <div>
                     <ButtonCreateRecipe />
+                </div>
+                <div>
+                    <ButtonRestoreRecipe />
                 </div>
             </div>
         )

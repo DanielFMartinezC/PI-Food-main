@@ -114,12 +114,12 @@ const deletedRecipes = async (req, res) => {
             },
             paranoid: false
         });
-        if (recipes.length) {
+        // if (recipes.length) {
             return res.json(recipes)
-        } else {
-            res.status(404);
-            return res.json('recipes not found')
-        }
+        // } else {
+        //     res.status(404);
+        //     return res.send('recipes not found')
+        // }
     } catch (e) {
         res.status(500);
         return res.json(e.message)
