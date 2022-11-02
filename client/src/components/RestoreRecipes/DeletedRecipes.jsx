@@ -5,6 +5,7 @@ import Loading from "../Loading/Loading";
 import CardDeletedRecipe from "./CardDeletedRecipe";
 import axios from "axios";
 import { RECIPES } from "../../constants";
+import s from './CSS/DeletedRecipes.module.css'
 
 export default function DeletedRecipes() {
     const dispatch = useDispatch();
@@ -22,7 +23,7 @@ export default function DeletedRecipes() {
                 setLoading(false)
             }, 2000)
         };
-        load()
+        // load()
     }, [refresh]);
     function restoreRecipe(id) {
         axios.put(`${RECIPES}/${id}`)
@@ -30,7 +31,6 @@ export default function DeletedRecipes() {
             .then(() => setRefresh(refresh + 1))
     }
     const { deletedRecipes } = useSelector((state) => state) || false;
-    console.log(deletedRecipes)
 
     if (deletedRecipes) {
         if (loading) {
@@ -40,19 +40,26 @@ export default function DeletedRecipes() {
         } else {
             if (deletedRecipes.length) {
                 return (
-                    <div>
-                        {
-                            deletedRecipes.map(x => {
-                                return <div key={x.id}> <div><CardDeletedRecipe id={x.id} title={x.title} image={x.image} /> </div> <div>
-                                    <button onClick={() => restoreRecipe(x.id)}>Restore</button>
-                                </div></div>
-                            })
-                        }
+                    <div className={ deletedRecipes.length <= 2 ? s.root : s.root2}>
+                        <div className={s.divH}>
+                            <h1 className={s.h}>Deleted recipes</h1>
+                        </div>
+                        <div className={s.divList}>
+                            {
+                                deletedRecipes.map(x => {
+                                    return <div key={x.id} className={s.divCard}> <div><CardDeletedRecipe id={x.id} title={x.title} image={x.image} /> </div> <div>
+                                        <button onClick={() => restoreRecipe(x.id)}>Restore</button>
+                                    </div></div>
+                                })
+                            }
+                        </div>
                     </div>
                 )
             } else {
                 return (
-                    <h2>There are not deleted recipes</h2>
+                    <div className={s.root}>
+                        <h1 className={s.h}>There are not deleted recipes</h1>
+                    </div>
                 )
             }
         }

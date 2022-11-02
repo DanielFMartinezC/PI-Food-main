@@ -10,12 +10,13 @@ export default function NavBar() {
     const { pathname } = location
     if (pathname === '/') {
         return null
-    } else if (pathname === '/CreateRecipe') {
-        return (
-            <div className={s.root}>
-                <ButtonHome />
-            </div>
-        )
+        // } else if (pathname === '/CreateRecipe') {
+        //     return (
+        //         <div className={s.root}>
+        //             <ButtonHome />
+        //             <div> <ButtonRestoreRecipe /> </div>
+        //         </div>
+        //     )
     } else {
         return (
             <div className={s.root}>
@@ -25,9 +26,10 @@ export default function NavBar() {
                 <div>
                     <ButtonCreateRecipe />
                 </div>
-                {
-                    pathname === '/DeletedRecipes' ? null : <div> <ButtonRestoreRecipe /> </div>
-                }
+                <div>
+                    <ButtonRestoreRecipe />
+                </div>
+
 
             </div>
         )

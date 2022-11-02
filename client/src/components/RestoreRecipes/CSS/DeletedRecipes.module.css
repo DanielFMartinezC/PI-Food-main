@@ -1,0 +1,45 @@
+.root {
+    background-color: #CEE0DC;
+    text-align:center;
+    margin: 0;
+    background-size:cover;    
+    position: absolute;
+    top: 70px;
+    /* height: max-content; */
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.root2 {
+    background-color: #CEE0DC;
+    text-align:center;
+    /* margin: 0; */
+    /* background-size:cover; */
+    width: 100vw;
+    /* height: 100%;
+    bottom: 0;
+    left: 0;
+    right: 0; */
+}
+
+.divH {
+    text-align:center;
+}
+
+.h {
+    margin: 0px;
+    padding-top: 50px;
+    padding-bottom: 30px;
+}
+
+.divList {
+    max-width: 100%;
+}
+
+.divCard {
+    margin: 15px;
+    background-color: #CEE0DC;
+    /* width: 100vw; */
+    display:inline-block;
+}
