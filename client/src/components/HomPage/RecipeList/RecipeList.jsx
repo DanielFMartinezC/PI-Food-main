@@ -29,6 +29,13 @@ export default function RecipeList({ recipes }) {
         arr.push(i)
     };
 
+    if(!recipes.length) {
+        return (
+            <div className={s.root}>
+                <h1>No recipe found</h1>
+            </div>
+        )
+    }
     return (
         <div className={s.root}>
             <h3 className={s.h3}>Let's see recipes</h3>
