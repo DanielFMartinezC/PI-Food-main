@@ -2,7 +2,7 @@ import React from "react";
 import RecipeCard from "./RecipeCard";
 import s from './CSS/RecipeList.module.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { nextPageRedux, prevPageRedux } from '../../../Redux/actions/index' 
+import { nextPageRedux, prevPageRedux, btnPageRedux } from '../../../Redux/actions/index' 
 
 export default function RecipeList({ recipes }) {
     // const [page, setPage] = React.useState(0);
@@ -20,7 +20,7 @@ export default function RecipeList({ recipes }) {
         dispatch(prevPageRedux())
     };
     function btnPage(e) {
-        // setPage((9 * e.target.value) - 9)
+        dispatch(btnPageRedux(e.target.value))
     };
 
     let numOfButtons = Math.ceil(recipes.length / 9);

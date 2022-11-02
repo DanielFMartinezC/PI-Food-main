@@ -16,6 +16,7 @@ export const RECIPE_DETAIL_RESET = 'RECIPE_DETAIL_RESET';
 export const GET_DELETED_RECIPES = 'GET_DELETED_RECIPES';
 export const NETX_PAGE = 'NETX_PAGE';
 export const PREV_PAGE = 'PREV_PAGE';
+export const BTN_PAGE = 'BTN_PAGE'
 
 export const getAllRecipes = () => {
     return async (dispatch) => {
@@ -109,3 +110,9 @@ export const prevPageRedux = () => {
         type: PREV_PAGE
     }
 };
+
+export const btnPageRedux = (value) => {
+    return {
+        type: BTN_PAGE, payload: value
+    }
+}

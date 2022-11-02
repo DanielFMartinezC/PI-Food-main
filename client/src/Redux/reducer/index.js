@@ -1,4 +1,4 @@
-import { GET_RECIPES, FILTER_BY_DIETS, GET_RECIPES_BY_NAME, GET_RECIPE_DETAIL, GET_DIETS, ORDER_ASCE, ORDER_DESCE, HEALTH_ASCE, HEALTH_DESCE, ORIGINAL_ORDER, RECIPE_DETAIL_RESET, GET_DELETED_RECIPES, NETX_PAGE, PREV_PAGE, nextPage } from '../actions/index';
+import { GET_RECIPES, FILTER_BY_DIETS, GET_RECIPES_BY_NAME, GET_RECIPE_DETAIL, GET_DIETS, ORDER_ASCE, ORDER_DESCE, HEALTH_ASCE, HEALTH_DESCE, ORIGINAL_ORDER, RECIPE_DETAIL_RESET, GET_DELETED_RECIPES, NETX_PAGE, PREV_PAGE, BTN_PAGE } from '../actions/index';
 
 function compareFunctionByTitle(x, y) {
     if (x.title < y.title) {
@@ -138,6 +138,11 @@ const rootReducer = (state = initialState, action) => {
                     ...state
                 }
             };
+        case BTN_PAGE:
+            return {
+                ...state,
+                page: (9 * action.payload) - 9
+            }
     }
 };
 
