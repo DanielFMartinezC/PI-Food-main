@@ -1,13 +1,13 @@
 import { useDispatch } from 'react-redux';
 import React from 'react';
-import { changeOrder, filterByDiets } from '../../../Redux/actions';
+import { changeOrder, filterByDiets, btnPageRedux } from '../../../Redux/actions';
 import InputDiets from './InputDiets';
 import s from './CSS/Filters.module.css'
 
 export default function Filters({ diets }) {
     const [dietFilter, setDietFilter] = React.useState([])
     const dispatch = useDispatch();
-    React.useEffect(() => { dispatch(filterByDiets(dietFilter)) }, [dietFilter])
+    React.useEffect(() => { dispatch(btnPageRedux(1)); dispatch(filterByDiets(dietFilter)) }, [dietFilter])
     function handleCheckBox(e) {
         if (e.target.checked) {
             setDietFilter(dietFilter => [...dietFilter, e.target.value]);
@@ -22,6 +22,7 @@ export default function Filters({ diets }) {
             <div>
                 <form onChange={(e) => {
                     e.preventDefault();
+                    dispatch(btnPageRedux(1));
                     dispatch(changeOrder(e.target.value, e.target.name))
                 }} >
                     <p className={s.p}>Alphabet order:</p>

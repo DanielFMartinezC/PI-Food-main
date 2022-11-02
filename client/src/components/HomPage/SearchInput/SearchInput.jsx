@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import { getRecipesByName } from '../../../Redux/actions';
+import { getRecipesByName, btnPageRedux } from '../../../Redux/actions';
 import React from 'react';
 import s from './SearchInput.module.css';
 
@@ -15,6 +15,7 @@ export default function SearchInput() {
             <div>
                 <form onSubmit={(e) => {
                     e.preventDefault();
+                    dispatch(btnPageRedux(1));
                     dispatch(getRecipesByName(state))
                 }}>
                     <input className={s.input} type="text" value={state} onChange={(e) => handleName(e)} placeholder='...' />
