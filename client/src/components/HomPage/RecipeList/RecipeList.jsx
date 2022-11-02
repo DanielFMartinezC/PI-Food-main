@@ -2,13 +2,11 @@ import React from "react";
 import RecipeCard from "./RecipeCard";
 import s from './CSS/RecipeList.module.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { nextPageRedux, prevPageRedux, btnPageRedux } from '../../../Redux/actions/index' 
+import { nextPageRedux, prevPageRedux, btnPageRedux } from '../../../Redux/actions/index'
 
 export default function RecipeList({ recipes }) {
-    // const [page, setPage] = React.useState(0);
     const dispatch = useDispatch();
     const { page } = useSelector((state) => state)
-    console.log(page)
     function handlerPage() {
         const repicePage = recipes.slice(page, page + 9);
         return repicePage;
@@ -24,38 +22,39 @@ export default function RecipeList({ recipes }) {
     };
 
     let numOfButtons = Math.ceil(recipes.length / 9);
-    let arr = []    
+    let arr = []
     for (let i = 1; i <= numOfButtons; i++) {
         arr.push(i)
     };
 
-    if(!recipes.length) {
+    // if (!recipes.length) {
+    //     return (
+    //         <div className={s.root}>
+    //             <h1 className={s.h}>No recipe found</h1>
+    //         </div>
+    //     )
+    // } else {
         return (
-            <div className={s.root}>
-                <h1>No recipe found</h1>
+            <div className={handlerPage().length < 2 ? s.root2 : null}>
+                <h3 className={s.h3}>Let's see recipes</h3>
+                <div className={s.btns}>
+                    <button className={s.btnB} onClick={prevPage}>Back</button>
+                    {
+                        arr.map(x => {
+                            return <button className={s.btn} key={x} value={x} onClick={(e) => btnPage(e)}>{x}</button>
+                        })
+                    }
+                    <button className={s.btnN} onClick={nextPage}>Next</button>
+                </div>
+                <div className={s.list}>
+                    {
+                        handlerPage().map((x) => {
+                            return <RecipeCard key={x.id} id={x.id} image={x.image} title={x.title} diets={typeof (x.diets[0]) === 'object' ? x.diets.map((x) => x.name) : x.diets}
+                            />
+                        })
+                    }
+                </div>
             </div>
         )
-    }
-    return (
-        <div className={s.root}>
-            <h3 className={s.h3}>Let's see recipes</h3>
-            <div className={s.btns}>
-                <button className={s.btnB} onClick={prevPage}>Back</button>
-                {
-                    arr.map(x => {
-                        return <button className={s.btn} key={x} value={x} onClick={(e) => btnPage(e)}>{x}</button>
-                    })
-                }
-                <button className={s.btnN} onClick={nextPage}>Next</button>
-            </div>
-            <div className={s.list}>
-                {
-                    handlerPage().map((x) => {
-                        return <RecipeCard key={x.id} id={x.id} image={x.image} title={x.title} diets={typeof (x.diets[0]) === 'object' ? x.diets.map((x) => x.name) : x.diets}
-                        />
-                    })
-                }
-            </div>
-        </div>
-    )
+    // }
 }

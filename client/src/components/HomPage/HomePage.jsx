@@ -21,7 +21,7 @@ export default function HomePage() {
         fn();
     }, [])
     const { recipes, diets } = useSelector((state) => state) || false;
-    
+
     if (recipes && diets) {
         return (
             <div className={s.root}>
@@ -32,15 +32,16 @@ export default function HomePage() {
                     <div>
                         <Filters diets={diets} />
                     </div>
-                    <div>
-                        <RecipeList recipes={recipes} />
-                    </div>
+                    {
+                        recipes.length > 1 ? <div> <RecipeList recipes={recipes} /> </div> :  <div className={s.root2}> <h1 className={s.h}>No recipe found</h1> </div>
+                    }
+
                 </div>
             </div>
         )
     } else {
         return (
-            <Loading/>
+            <Loading />
         )
     }
 }
