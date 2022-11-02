@@ -1,4 +1,4 @@
-import { GET_RECIPES, FILTER_BY_DIETS, GET_RECIPES_BY_NAME, GET_RECIPE_DETAIL, GET_DIETS, ORDER_ASCE, ORDER_DESCE, HEALTH_ASCE, HEALTH_DESCE, ORIGINAL_ORDER, RECIPE_DETAIL_RESET, GET_DELETED_RECIPES } from '../actions/index';
+import { GET_RECIPES, FILTER_BY_DIETS, GET_RECIPES_BY_NAME, GET_RECIPE_DETAIL, GET_DIETS, ORDER_ASCE, ORDER_DESCE, HEALTH_ASCE, HEALTH_DESCE, ORIGINAL_ORDER, RECIPE_DETAIL_RESET, GET_DELETED_RECIPES, NETX_PAGE, PREV_PAGE, nextPage } from '../actions/index';
 
 function compareFunctionByTitle(x, y) {
     if (x.title < y.title) {
@@ -23,7 +23,8 @@ const initialState = {
     orderRecipes: [],
     diets: [],
     recipeDetail: {},
-    deletedRecipes: []
+    deletedRecipes: [],
+    page: 0
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -92,8 +93,8 @@ const rootReducer = (state = initialState, action) => {
             // };
             for (let i = 0; i < payload.length; i++) {
                 filteredRecipes = filteredRecipes.concat(state.orderRecipes.filter(function (x) {
-                    for(let j = 0; j < x.diets.length; j++) {
-                        if(x.diets[j]['name'] === payload[i]) {
+                    for (let j = 0; j < x.diets.length; j++) {
+                        if (x.diets[j]['name'] === payload[i]) {
                             return true
                         }
                     }
@@ -105,7 +106,7 @@ const rootReducer = (state = initialState, action) => {
                 ...state,
                 recipes: response
             };
-        case RECIPE_DETAIL_RESET:  
+        case RECIPE_DETAIL_RESET:
             return {
                 ...state,
                 recipeDetail: {}
@@ -114,7 +115,29 @@ const rootReducer = (state = initialState, action) => {
             return {
                 ...state,
                 deletedRecipes: action.payload
-            }
+            };
+        case NETX_PAGE:
+            if (state.recipes[state.page + 9]) {
+                return {
+                    ...state,
+                    page: state.page + 9
+                };
+            } else {
+                return {
+                    ...state
+                }
+            };
+        case PREV_PAGE:
+            if(state.page > 0) {
+                return {
+                    ...state,
+                    page: state.page - 9
+                };
+            } else {
+                return {
+                    ...state
+                }
+            };
     }
 };
 

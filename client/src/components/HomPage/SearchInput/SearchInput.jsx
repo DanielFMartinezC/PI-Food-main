@@ -1,7 +1,7 @@
 import { useDispatch } from 'react-redux';
 import { getRecipesByName } from '../../../Redux/actions';
 import React from 'react';
-import s from './SearchInput.module.css'
+import s from './SearchInput.module.css';
 
 export default function SearchInput() {
     const [state, setState] = React.useState('')

@@ -14,6 +14,8 @@ export const FILTER_BY_DIETS = 'FILTER_BY_DIETS';
 export const ORIGINAL_ORDER = 'ORIGINAL_ORDER';
 export const RECIPE_DETAIL_RESET = 'RECIPE_DETAIL_RESET';
 export const GET_DELETED_RECIPES = 'GET_DELETED_RECIPES';
+export const NETX_PAGE = 'NETX_PAGE';
+export const PREV_PAGE = 'PREV_PAGE';
 
 export const getAllRecipes = () => {
     return async (dispatch) => {
@@ -95,3 +97,15 @@ export const getDeletedRecipes = () => {
         return dispatch({ type: GET_DELETED_RECIPES, payload: data })
     }
 }
+
+export const nextPageRedux = () => {
+    return {
+        type: NETX_PAGE
+    }
+};
+
+export const prevPageRedux = () => {
+    return {
+        type: PREV_PAGE
+    }
+};

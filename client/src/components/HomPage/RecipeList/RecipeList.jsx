@@ -1,28 +1,30 @@
 import React from "react";
 import RecipeCard from "./RecipeCard";
-import s from './CSS/RecipeList.module.css'
+import s from './CSS/RecipeList.module.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { nextPageRedux, prevPageRedux } from '../../../Redux/actions/index' 
 
 export default function RecipeList({ recipes }) {
-    const [page, setPage] = React.useState(0);
+    // const [page, setPage] = React.useState(0);
+    const dispatch = useDispatch();
+    const { page } = useSelector((state) => state)
+    console.log(page)
     function handlerPage() {
         const repicePage = recipes.slice(page, page + 9);
         return repicePage;
     };
     function nextPage() {
-        if (recipes[page + 9])
-            setPage(page + 9)
+        dispatch(nextPageRedux())
     };
     function prevPage() {
-        if (page > 0) {
-            setPage(page - 9)
-        }
+        dispatch(prevPageRedux())
     };
     function btnPage(e) {
-        setPage((9 * e.target.value) - 9)
+        // setPage((9 * e.target.value) - 9)
     };
 
     let numOfButtons = Math.ceil(recipes.length / 9);
-    let arr = []
+    let arr = []    
     for (let i = 1; i <= numOfButtons; i++) {
         arr.push(i)
     };
