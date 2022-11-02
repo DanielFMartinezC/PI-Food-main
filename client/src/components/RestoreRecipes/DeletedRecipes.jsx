@@ -21,9 +21,9 @@ export default function DeletedRecipes() {
             setLoading(true);
             setTimeout(() => {
                 setLoading(false)
-            }, 2000)
+            }, 1000)
         };
-        // load()
+        load()
     }, [refresh]);
     function restoreRecipe(id) {
         axios.put(`${RECIPES}/${id}`)

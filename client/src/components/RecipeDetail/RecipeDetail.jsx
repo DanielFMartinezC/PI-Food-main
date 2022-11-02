@@ -55,7 +55,7 @@ const RecipeDetail = () => {
 
     if (recipeDetail) {
 
-        const { title, image, diets, dishTypes, healthScore, summary, steps, aggregateLikes } = recipeDetail;
+        const { title, image, diets, dishTypes, healthScore, summary, steps } = recipeDetail;
         if (loading) {
             return (
                 <Loading />
@@ -71,9 +71,6 @@ const RecipeDetail = () => {
                             }
                         </div>
                         <div className={s.divInfo}>
-                            <div>
-                                <p> aggregateLikes: {aggregateLikes}</p>
-                            </div>
                             <div>
                                 {
                                     diets ? <p>Diet types: {renderDiets(diets).map(x => ' ' + x + ',')}</p> : null
