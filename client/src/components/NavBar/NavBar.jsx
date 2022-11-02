@@ -25,9 +25,10 @@ export default function NavBar() {
                 <div>
                     <ButtonCreateRecipe />
                 </div>
-                <div>
-                    <ButtonRestoreRecipe />
-                </div>
+                {
+                    pathname === '/DeletedRecipes' ? null : <div> <ButtonRestoreRecipe /> </div>
+                }
+
             </div>
         )
     }
