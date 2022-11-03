@@ -1,4 +1,4 @@
-const URL_BASE = 'http://localhost:3001';
+const URL_BASE = 'https://backfoodapp.herokuapp.com';
 const RECIPES = URL_BASE + '/recipes';
 const RECIPES_BY_NAME = RECIPES + '?name=';
 const RECIPE_DETAIL = RECIPES + '/'
