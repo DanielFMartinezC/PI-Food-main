@@ -34,6 +34,12 @@ export default function RecipeList({ recipes }) {
     //         </div>
     //     )
     // } else {
+        function currBtn(page, btn) {
+            if((page + 9)/9 === btn) {
+                return true
+            };
+            return false
+        }
         return (
             <div className={handlerPage().length < 2 ? s.root2 : null}>
                 <h3 className={s.h3}>Let's see recipes</h3>
@@ -41,7 +47,7 @@ export default function RecipeList({ recipes }) {
                     <button className={s.btnB} onClick={prevPage}>Back</button>
                     {
                         arr.map(x => {
-                            return <button className={s.btn} key={x} value={x} onClick={(e) => btnPage(e)}>{x}</button>
+                            return <button className={currBtn(page, x) ? s.currentBtn : s.btn} key={x} value={x} onClick={(e) => btnPage(e)}>{x}</button>
                         })
                     }
                     <button className={s.btnN} onClick={nextPage}>Next</button>
