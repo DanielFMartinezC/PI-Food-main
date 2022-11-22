@@ -19,7 +19,7 @@ export default function NavBar() {
         //     )
     } else {
         return (
-            <div className={s.root}>
+            <div className={pathname === 'CreateRecipe' ? s.root2 : s.root}>
                 <div>
                     <ButtonHome />
                 </div>
