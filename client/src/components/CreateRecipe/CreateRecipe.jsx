@@ -82,7 +82,7 @@ export default function CreateRecipe() {
                     return error
                 }
             };
-            
+
             return error
         }
     }
