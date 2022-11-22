@@ -11,7 +11,7 @@ export default function RecipeCard({ id, image, title, diets }) {
             </Link>
             <h3 className={s.title}>{title}</h3>
             </div>
-            <p className={s.diets}>{diets.map(x => ' ' + x)}</p>
+            <p className={s.diets}>{diets.map(x => ' ' + x + ',')}</p>
             {
                 image ? <img className={s.image} src={image} alt={`${title}`} /> : null
             }
