@@ -54,7 +54,7 @@ export default function CreateRecipe() {
             error.image = ''
         };
         if (!input.summary) {
-            error.summary = 'Summar is required'
+            error.summary = 'Summary is required'
         } else {
             error.summary = ''
         }
