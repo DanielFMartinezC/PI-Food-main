@@ -48,16 +48,18 @@ router.post('/', createRecipe);
 router.post('/copia', async (req, res) => {
     try {
         const { data } = await axios.get(complexSearch);
+        // return res.json(data.results.length)
+        console.log(data)
         // const axiosResult = [];
 
-        for (let i = 0; i < data.results.length; i++) {
+        for (let i = 0; i < data.number; i++) {
             const a = {
                 id: uuidv4(),
                 image: data.results[i]['image'],
                 title: data.results[i]['title'],
                 summary: data.results[i]['summary'],
                 healthScore: data.results[i]['healthScore'],
-                steps: data.results[i]['analyzedInstructions'].length ? data.results[i]['analyzedInstructions'][0]['steps'] : []
+                steps: data.results[i]['analyzedInstructions'] ? data.results[i]['analyzedInstructions'][0]['steps'] : []
             };
             const newRecipe = await Recipe.create(a)
             // axiosResult.push(a);

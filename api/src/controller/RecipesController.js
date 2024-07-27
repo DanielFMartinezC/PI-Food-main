@@ -1,10 +1,19 @@
 const { Recipe, Diet, Op } = require('../db');
 const { v4: uuidv4, validate } = require('uuid');
+const axios = require('axios');
+const { complexSearch } = require('../Utils/Constants');
+
+const {
+    apiKey,
+} = process.env;
 
 const getRecipes = async (req, res) => {
     try {
         const { name } = req.query;
         // const { data } = await axios.get(complexSearch);
+        // if(data) {
+        //     return res.json(data)
+        // }
 
         if (name) {
             const search = name[0].toUpperCase() + name.substring(1)
