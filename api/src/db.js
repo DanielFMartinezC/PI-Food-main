@@ -3,18 +3,22 @@ const { Sequelize, Op } = require('sequelize');
 const fs = require('fs');
 const path = require('path');
 const {
-  DB_USER, DB_PASSWORD, DB_HOST, DB
+  POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_HOST, DB
 } = process.env;
 // àdsdds
-// const sequelize = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/ddb68ptr0d68i0`, {
-//   logging: false, // set to console.log to see the raw SQL queries
-//   native: false,
-//   ssl: {
-//     rejectUnauthorized: true
-//   } // lets Sequelize know we can use pg-native for ~30% more speed
-// });
+const sequelize = new Sequelize(`postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}/verceldb?sslmode=require`, {
+  logging: false, // set to console.log to see the raw SQL queries
+  native: false,
+  dialectOptions: {
+    ssl: {
+      require: true,
+      rejectUnauthorized: true, // <-- Add this line
+    },
+  },
+  // lets Sequelize know we can use pg-native for ~30% more speed
+});
 
-const sequelize = new Sequelize({
+/* const sequelize = new Sequelize({
   database: DB,
   username: DB_USER,
   password: DB_PASSWORD,
@@ -27,7 +31,7 @@ const sequelize = new Sequelize({
       rejectUnauthorized: false // This line will fix new error
     }
   },
-});
+}); */
 
 const basename = path.basename(__filename);
 
@@ -52,8 +56,8 @@ sequelize.models = Object.fromEntries(capsEntries);
 const { Recipe, Diet } = sequelize.models;
 // Aca vendrian las relaciones
 // Product.hasMany(Reviews);
-Recipe.belongsToMany(Diet, { through: 'recipediet'});
-Diet.belongsToMany(Recipe, { through: 'recipediet'});
+Recipe.belongsToMany(Diet, { through: 'recipediet' });
+Diet.belongsToMany(Recipe, { through: 'recipediet' });
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');
   conn: sequelize,
